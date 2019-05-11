@@ -270,8 +270,7 @@ body.border-dark .main-content:after{
 }
 .intro-text > p{
 	font-size:18px;
-	/* color:#FFF; */
-	color:#00f4ab;
+	color:#FFF;
 	color:rgba(255,255,255,.8);
 	margin-top:15px;
 	margin-bottom:0;
