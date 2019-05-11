@@ -249,8 +249,9 @@ body.border-dark .main-content:after{
 	left:0;
 	height:100%;
 	width:100%;
-	/* background:#303F9F; */
-	background:#00f4ab;
+	/* background:#303F9F; og blue */
+	/* background:#00f4ab; mint green*/
+	background:#5b5b5b;
 	opacity:.8;
 	z-index:-1;
 }
@@ -260,7 +261,8 @@ body.border-dark .main-content:after{
 }
 .intro-text > h1{
 	margin:0;
-	color:#FFF;
+	/* color:#FFF; */
+	color:#00f4ab;
 	text-transform:uppercase;
 	font-weight:900;
 	letter-spacing:8px;
@@ -268,7 +270,8 @@ body.border-dark .main-content:after{
 }
 .intro-text > p{
 	font-size:18px;
-	color:#FFF;
+	/* color:#FFF; */
+	color:#00f4ab;
 	color:rgba(255,255,255,.8);
 	margin-top:15px;
 	margin-bottom:0;
