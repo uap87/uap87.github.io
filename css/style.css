@@ -249,7 +249,8 @@ body.border-dark .main-content:after{
 	left:0;
 	height:100%;
 	width:100%;
-	background:#303F9F;
+	/* background:#303F9F; */
+	background:#00f4ab;
 	opacity:.8;
 	z-index:-1;
 }
@@ -339,7 +340,8 @@ a.btn-custom{
 	visibility:visible;
 }
 .btn-custom.btn-color:after{
-	background:#303F9F;
+	/* background:#303F9F; */
+	background:#00f4ab;
 }
 .btn-custom.btn-color:hover:after{
 	opacity:.4;
