@@ -1163,8 +1163,7 @@ body.section-switching.up .animation-block{
 }
 .alert.alert-danger{
 	border-color:#ef5350;
-	/* color:#ef5350; */
-	color:#000000;
+	color:#ef5350;
 }
 .form-group{
 	margin-bottom:20px;
