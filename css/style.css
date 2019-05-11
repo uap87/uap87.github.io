@@ -332,7 +332,6 @@ a.btn-custom{
 	bottom:0;
 	z-index:2;
 	border:solid 1px #FFF;
-	/* border-color:rgba(255,255,255,.8); */
 	border-color:rgba(255,255,255,.8);
 }
 .btn-custom:hover:after{
