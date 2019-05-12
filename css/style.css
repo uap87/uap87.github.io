@@ -55,7 +55,8 @@ h1, h2, h3, h4, h5, h6{
 	font-family: 'Roboto Mono', sans-serif;
 }
 .color{
-	color:#303F9F;
+	/* color:#303F9F; */
+	color:#00f4ab;
 }
 ::-webkit-scrollbar{
 	background:#F0F0F0;
