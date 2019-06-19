@@ -121,6 +121,7 @@ input, select, textarea {
 
 	body, input, select, textarea {
 		color: #ffffff;
+		/* color: #5BF19B; */
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
 		font-size: 16.5pt;
 		font-weight: 300;
@@ -174,12 +175,14 @@ input, select, textarea {
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		border-bottom: dotted 1px rgba(255, 255, 255, 0.35);
 		color: #ffffff;
+		/* color: #5BF19B; */
 		text-decoration: none;
 	}
 
 		a:hover {
 			border-bottom-color: transparent;
-			color: #ffffff !important;
+			/* color: #ffffff !important; */
+			color: #5BF19B !important;
 		}
 
 		a.special:not(.button) {
@@ -232,6 +235,7 @@ input, select, textarea {
 
 	strong, b {
 		color: #ffffff;
+		/* color: #5BF19B; */
 		font-weight: 600;
 	}
 
@@ -245,6 +249,7 @@ input, select, textarea {
 
 	h1, h2, h3, h4, h5, h6 {
 		color: #ffffff;
+		/* color: #5BF19B; */
 		font-family: Raleway, Helvetica, sans-serif;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -2171,6 +2176,7 @@ input, select, textarea {
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="subject"],
 	input[type="tel"],
 	select,
 	textarea {
@@ -2193,6 +2199,7 @@ input, select, textarea {
 		input[type="text"]:invalid,
 		input[type="password"]:invalid,
 		input[type="email"]:invalid,
+		input[type="subject"]:invalid,
 		input[type="tel"]:invalid,
 		select:invalid,
 		textarea:invalid {
@@ -2202,6 +2209,7 @@ input, select, textarea {
 		input[type="text"]:focus,
 		input[type="password"]:focus,
 		input[type="email"]:focus,
+		input[type="subject"]:focus,
 		input[type="tel"]:focus,
 		select:focus,
 		textarea:focus {
@@ -2234,6 +2242,7 @@ input, select, textarea {
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="subject"],
 	select {
 		height: 2.75em;
 	}
@@ -2772,10 +2781,12 @@ input, select, textarea {
 
 		table td {
 			padding: 0.75em 0.75em;
+			text-align: left;
 		}
 
 		table th {
 			color: #ffffff;
+			/* color: #5BF19B; */
 			font-size: 0.9em;
 			font-weight: 600;
 			padding: 0 0.75em 0.75em 0.75em;
@@ -2857,6 +2868,9 @@ input, select, textarea {
 		button:hover,
 		.button:hover {
 			background-color: rgba(255, 255, 255, 0.025);
+			/* background-color: rgba(91, 241, 155, .9); */
+			/* text-decoration-color: #000000;
+			text-emphasis-color: #000000; */
 		}
 
 		input[type="submit"]:active,
@@ -2891,6 +2905,7 @@ input, select, textarea {
 			button.primary:hover,
 			.button.primary:hover {
 				background-color: #53639e;
+				/* background-color: #5BF19B; */
 			}
 
 			input[type="submit"].primary:active,
@@ -3127,6 +3142,106 @@ input, select, textarea {
 						background-color: rgba(255, 255, 255, 0.075);
 					}
 
+
+					/* ADDED BY UDIT */
+
+					#header nav a[href="#nyucourses"] {
+						text-decoration: none;
+						-moz-transition: background-color 0.2s ease-in-out;
+						-webkit-transition: background-color 0.2s ease-in-out;
+						-ms-transition: background-color 0.2s ease-in-out;
+						transition: background-color 0.2s ease-in-out;
+						border-radius: 5px;
+						box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.125);
+						padding: 0 1.35em;
+					}
+
+						#header nav a[href="#nyucourses"]:before {
+							-moz-osx-font-smoothing: grayscale;
+							-webkit-font-smoothing: antialiased;
+							font-family: FontAwesome;
+							font-style: normal;
+							font-weight: normal;
+							text-transform: none !important;
+						}
+
+						#header nav a[href="#nyucourses"]:before {
+							content: '\f0c9';
+						}
+
+						#header nav a[href="#nyucourses"]:hover {
+							background-color: rgba(255, 255, 255, 0.025);
+						}
+
+						#header nav a[href="#nyucourses"]:active {
+							background-color: rgba(255, 255, 255, 0.075);
+						}
+
+						#header nav a[href="#npcourses"] {
+							text-decoration: none;
+							-moz-transition: background-color 0.2s ease-in-out;
+							-webkit-transition: background-color 0.2s ease-in-out;
+							-ms-transition: background-color 0.2s ease-in-out;
+							transition: background-color 0.2s ease-in-out;
+							border-radius: 5px;
+							box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.125);
+							padding: 0 1.35em;
+						}
+
+							#header nav a[href="#npcourses"]:before {
+								-moz-osx-font-smoothing: grayscale;
+								-webkit-font-smoothing: antialiased;
+								font-family: FontAwesome;
+								font-style: normal;
+								font-weight: normal;
+								text-transform: none !important;
+							}
+
+							#header nav a[href="#npcourses"]:before {
+								content: '\f0c9';
+							}
+
+							#header nav a[href="#npcourses"]:hover {
+								background-color: rgba(255, 255, 255, 0.025);
+							}
+
+							#header nav a[href="#npcourses"]:active {
+								background-color: rgba(255, 255, 255, 0.075);
+							}
+
+
+							#header nav a[href="#actuary"] {
+								text-decoration: none;
+								-moz-transition: background-color 0.2s ease-in-out;
+								-webkit-transition: background-color 0.2s ease-in-out;
+								-ms-transition: background-color 0.2s ease-in-out;
+								transition: background-color 0.2s ease-in-out;
+								border-radius: 5px;
+								box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.125);
+								padding: 0 1.35em;
+							}
+
+								#header nav a[href="#actuary"]:before {
+									-moz-osx-font-smoothing: grayscale;
+									-webkit-font-smoothing: antialiased;
+									font-family: FontAwesome;
+									font-style: normal;
+									font-weight: normal;
+									text-transform: none !important;
+								}
+
+								#header nav a[href="#actuary"]:before {
+									content: '\f0c9';
+								}
+
+								#header nav a[href="#actuary"]:hover {
+									background-color: rgba(255, 255, 255, 0.025);
+								}
+
+								#header nav a[href="#actuary"]:active {
+									background-color: rgba(255, 255, 255, 0.075);
+								}
+
 		#header.alt {
 			background-color: transparent;
 		}
@@ -3165,6 +3280,39 @@ input, select, textarea {
 								background-color: inherit;
 							}
 
+							/* ADDED BY UDIT */
+
+							#header nav a[href="#nyucourses"] {
+								box-shadow: none;
+								padding: 0 1em;
+								border-radius: 0;
+							}
+
+								#header nav a[href="#nyucourses"]:hover, #header nav a[href="#nyucourses"]:active {
+									background-color: inherit;
+								}
+
+								#header nav a[href="#npcourses"] {
+									box-shadow: none;
+									padding: 0 1em;
+									border-radius: 0;
+								}
+
+									#header nav a[href="#npcourses"]:hover, #header nav a[href="#npcourses"]:active {
+										background-color: inherit;
+									}
+
+
+									#header nav a[href="#actuary"] {
+										box-shadow: none;
+										padding: 0 1em;
+										border-radius: 0;
+									}
+
+										#header nav a[href="#actuary"]:hover, #header nav a[href="#actuary"]:active {
+											background-color: inherit;
+										}
+
 		}
 
 		@media screen and (max-width: 480px) {
@@ -3177,6 +3325,74 @@ input, select, textarea {
 			}
 
 				#header nav a[href="#menu"]:before {
+					width: inherit;
+					position: absolute;
+					top: 0;
+					left: 0;
+					text-indent: 0;
+					text-align: right;
+					margin-left: 0;
+					padding-right: 1.25em;
+				}
+
+		}
+
+		/* ADDED BY UDIT */
+
+		@media screen and (max-width: 480px) {
+
+			#header nav a[href="#nyucourses"] {
+				width: 4em;
+				white-space: nowrap;
+				text-indent: 4em;
+				position: relative;
+			}
+
+				#header nav a[href="#nyucourses"]:before {
+					width: inherit;
+					position: absolute;
+					top: 0;
+					left: 0;
+					text-indent: 0;
+					text-align: right;
+					margin-left: 0;
+					padding-right: 1.25em;
+				}
+
+		}
+
+		@media screen and (max-width: 480px) {
+
+			#header nav a[href="#npcourses"] {
+				width: 4em;
+				white-space: nowrap;
+				text-indent: 4em;
+				position: relative;
+			}
+
+				#header nav a[href="#npcourses"]:before {
+					width: inherit;
+					position: absolute;
+					top: 0;
+					left: 0;
+					text-indent: 0;
+					text-align: right;
+					margin-left: 0;
+					padding-right: 1.25em;
+				}
+
+		}
+
+		@media screen and (max-width: 480px) {
+
+			#header nav a[href="#actuary"] {
+				width: 4em;
+				white-space: nowrap;
+				text-indent: 4em;
+				position: relative;
+			}
+
+				#header nav a[href="#actuary"]:before {
 					width: inherit;
 					position: absolute;
 					top: 0;
@@ -3337,6 +3553,452 @@ input, select, textarea {
 			transform: translateY(0);
 			opacity: 1;
 		}
+
+		/* COURSES ADDED BY UDIT */
+
+		#nyucourses {
+			-moz-align-items: center;
+			-webkit-align-items: center;
+			-ms-align-items: center;
+			align-items: center;
+			display: -moz-flex;
+			display: -webkit-flex;
+			display: -ms-flex;
+			display: flex;
+			-moz-justify-content: center;
+			-webkit-justify-content: center;
+			-ms-justify-content: center;
+			justify-content: center;
+			pointer-events: none;
+			-moz-transition: opacity 0.35s ease, visibility 0.35s;
+			-webkit-transition: opacity 0.35s ease, visibility 0.35s;
+			-ms-transition: opacity 0.35s ease, visibility 0.35s;
+			transition: opacity 0.35s ease, visibility 0.35s;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			/* background: rgba(46, 49, 65, 0.8); */
+			background: rgba(46, 49, 65, 0.8);
+			cursor: default;
+			height: 100%;
+			left: 0;
+			opacity: 0;
+			position: fixed;
+			text-align: center;
+			top: 0;
+			visibility: hidden;
+			width: 100%;
+		}
+
+			#nyucourses .inner {
+				/* padding: 2.5em 1.5em 0.5em 1.5em ; */
+				padding: 2.5em 1.5em 0.5em 1.5em ;
+				-moz-transform: translateY(0.5em);
+				-webkit-transform: translateY(0.5em);
+				-ms-transform: translateY(0.5em);
+				transform: translateY(0.5em);
+				-moz-transition: opacity 0.35s ease, -moz-transform 0.35s ease;
+				-webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+				-ms-transition: opacity 0.35s ease, -ms-transform 0.35s ease;
+				transition: opacity 0.35s ease, transform 0.35s ease;
+				-webkit-overflow-scrolling: touch;
+				/* background: #4c5c96; */
+				background: #353860;
+				border-radius: 5px;
+				display: block;
+				max-width: 100%;
+				opacity: 0;
+				position: relative;
+				/* width: 18em; */
+				width: 35em;
+			}
+
+			#nyucourses h2 {
+				border-bottom: solid 2px rgba(255, 255, 255, 0.125);
+				padding-bottom: 1em;
+			}
+
+			#nyucourses .close {
+				background-image: url("images/close.svg");
+				background-position: 75% 25%;
+				background-repeat: no-repeat;
+				background-size: 2em 2em;
+				border: 0;
+				content: '';
+				display: block;
+				height: 4em;
+				overflow: hidden;
+				position: absolute;
+				right: 0;
+				text-align: center;
+				text-indent: 4em;
+				top: 0;
+				width: 4em;
+			}
+
+			#nyucourses .links {
+				list-style: none;
+				margin-bottom: 1.5em;
+				padding: 0;
+			}
+
+				#nyucourses .links li {
+					padding: 0;
+				}
+
+					#nyucourses .links li a {
+						border-radius: 5px;
+						border: 0;
+						display: block;
+						font-family: Raleway, Helvetica, sans-serif;
+						font-size: 0.8em;
+						font-weight: 200;
+						letter-spacing: 0.1em;
+						line-height: 1.85em;
+						padding: 0.75em 0;
+						text-transform: uppercase;
+					}
+
+						#nyucourses .links li a:hover {
+							background: #45558d;
+						}
+
+			@media screen and (max-width: 736px) {
+
+				#nyucourses .inner {
+					max-height: 100%;
+					overflow-y: auto;
+					overflow-x: hidden;
+				}
+
+					#nyucourses .inner .close {
+						background-size: 1.5em 1.5em;
+					}
+
+			}
+
+		body.is-nyucourses-visible #page-wrapper {
+			-moz-filter: blur(1.5px);
+			-webkit-filter: blur(1.5px);
+			-ms-filter: blur(1.5px);
+			filter: blur(1.5px);
+		}
+
+		body.is-nyucourses-visible #nyucourses {
+			pointer-events: auto;
+			opacity: 1;
+			visibility: visible;
+		}
+
+			body.is-nyucourses-visible #nyucourses .inner {
+				-moz-transform: translateY(0);
+				-webkit-transform: translateY(0);
+				-ms-transform: translateY(0);
+				transform: translateY(0);
+				opacity: 1;
+			}
+
+
+
+
+
+
+
+
+			#npcourses {
+				-moz-align-items: center;
+				-webkit-align-items: center;
+				-ms-align-items: center;
+				align-items: center;
+				display: -moz-flex;
+				display: -webkit-flex;
+				display: -ms-flex;
+				display: flex;
+				-moz-justify-content: center;
+				-webkit-justify-content: center;
+				-ms-justify-content: center;
+				justify-content: center;
+				pointer-events: none;
+				-moz-transition: opacity 0.35s ease, visibility 0.35s;
+				-webkit-transition: opacity 0.35s ease, visibility 0.35s;
+				-ms-transition: opacity 0.35s ease, visibility 0.35s;
+				transition: opacity 0.35s ease, visibility 0.35s;
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				/* background: rgba(46, 49, 65, 0.8); */
+				background: rgba(46, 49, 65, 0.8);
+				cursor: default;
+				height: 100%;
+				left: 0;
+				opacity: 0;
+				position: fixed;
+				text-align: center;
+				top: 0;
+				visibility: hidden;
+				width: 100%;
+			}
+
+				#npcourses .inner {
+					/* padding: 2.5em 1.5em 0.5em 1.5em ; */
+					padding: 2.5em 1.5em 0.5em 1.5em ;
+					-moz-transform: translateY(0.5em);
+					-webkit-transform: translateY(0.5em);
+					-ms-transform: translateY(0.5em);
+					transform: translateY(0.5em);
+					-moz-transition: opacity 0.35s ease, -moz-transform 0.35s ease;
+					-webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+					-ms-transition: opacity 0.35s ease, -ms-transform 0.35s ease;
+					transition: opacity 0.35s ease, transform 0.35s ease;
+					-webkit-overflow-scrolling: touch;
+					/* background: #4c5c96; */
+					background: #353860;
+					border-radius: 5px;
+					display: block;
+					max-width: 100%;
+					opacity: 0;
+					position: relative;
+					/* width: 18em; */
+					width: 35em;
+				}
+
+				#npcourses h2 {
+					border-bottom: solid 2px rgba(255, 255, 255, 0.125);
+					padding-bottom: 1em;
+				}
+
+				#npcourses .close {
+					background-image: url("images/close.svg");
+					background-position: 75% 25%;
+					background-repeat: no-repeat;
+					background-size: 2em 2em;
+					border: 0;
+					content: '';
+					display: block;
+					height: 4em;
+					overflow: hidden;
+					position: absolute;
+					right: 0;
+					text-align: center;
+					text-indent: 4em;
+					top: 0;
+					width: 4em;
+				}
+
+				#npcourses .links {
+					list-style: none;
+					margin-bottom: 1.5em;
+					padding: 0;
+				}
+
+					#npcourses .links li {
+						padding: 0;
+					}
+
+						#npcourses .links li a {
+							border-radius: 5px;
+							border: 0;
+							display: block;
+							font-family: Raleway, Helvetica, sans-serif;
+							font-size: 0.8em;
+							font-weight: 200;
+							letter-spacing: 0.1em;
+							line-height: 1.85em;
+							padding: 0.75em 0;
+							text-transform: uppercase;
+						}
+
+							#npcourses .links li a:hover {
+								background: #45558d;
+							}
+
+				@media screen and (max-width: 736px) {
+
+					#npcourses .inner {
+						max-height: 100%;
+						overflow-y: auto;
+						overflow-x: hidden;
+					}
+
+						#npcourses .inner .close {
+							background-size: 1.5em 1.5em;
+						}
+
+				}
+
+			body.is-npcourses-visible #page-wrapper {
+				-moz-filter: blur(1.5px);
+				-webkit-filter: blur(1.5px);
+				-ms-filter: blur(1.5px);
+				filter: blur(1.5px);
+			}
+
+			body.is-npcourses-visible #npcourses {
+				pointer-events: auto;
+				opacity: 1;
+				visibility: visible;
+			}
+
+				body.is-npcourses-visible #npcourses .inner {
+					-moz-transform: translateY(0);
+					-webkit-transform: translateY(0);
+					-ms-transform: translateY(0);
+					transform: translateY(0);
+					opacity: 1;
+				}
+
+
+
+
+
+
+				#actuary {
+					-moz-align-items: center;
+					-webkit-align-items: center;
+					-ms-align-items: center;
+					align-items: center;
+					display: -moz-flex;
+					display: -webkit-flex;
+					display: -ms-flex;
+					display: flex;
+					-moz-justify-content: center;
+					-webkit-justify-content: center;
+					-ms-justify-content: center;
+					justify-content: center;
+					pointer-events: none;
+					-moz-transition: opacity 0.35s ease, visibility 0.35s;
+					-webkit-transition: opacity 0.35s ease, visibility 0.35s;
+					-ms-transition: opacity 0.35s ease, visibility 0.35s;
+					transition: opacity 0.35s ease, visibility 0.35s;
+					-moz-user-select: none;
+					-webkit-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
+					-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+					/* background: rgba(46, 49, 65, 0.8); */
+					background: rgba(46, 49, 65, 0.8);
+					cursor: default;
+					height: 100%;
+					left: 0;
+					opacity: 0;
+					position: fixed;
+					text-align: center;
+					top: 0;
+					visibility: hidden;
+					width: 100%;
+				}
+
+					#actuary .inner {
+						/* padding: 2.5em 1.5em 0.5em 1.5em ; */
+						padding: 2.5em 1.5em 0.5em 1.5em ;
+						-moz-transform: translateY(0.5em);
+						-webkit-transform: translateY(0.5em);
+						-ms-transform: translateY(0.5em);
+						transform: translateY(0.5em);
+						-moz-transition: opacity 0.35s ease, -moz-transform 0.35s ease;
+						-webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+						-ms-transition: opacity 0.35s ease, -ms-transform 0.35s ease;
+						transition: opacity 0.35s ease, transform 0.35s ease;
+						-webkit-overflow-scrolling: touch;
+						/* background: #4c5c96; */
+						background: #353860;
+						border-radius: 5px;
+						display: block;
+						max-width: 100%;
+						opacity: 0;
+						position: relative;
+						/* width: 18em; */
+						width: 50em;
+					}
+
+					#actuary h2 {
+						border-bottom: solid 2px rgba(255, 255, 255, 0.125);
+						padding-bottom: 1em;
+					}
+
+					#actuary .close {
+						background-image: url("images/close.svg");
+						background-position: 75% 25%;
+						background-repeat: no-repeat;
+						background-size: 2em 2em;
+						border: 0;
+						content: '';
+						display: block;
+						height: 4em;
+						overflow: hidden;
+						position: absolute;
+						right: 0;
+						text-align: center;
+						text-indent: 4em;
+						top: 0;
+						width: 4em;
+					}
+
+					#actuary .links {
+						list-style: none;
+						margin-bottom: 1.5em;
+						padding: 0;
+					}
+
+						#actuary .links li {
+							padding: 0;
+						}
+
+							#actuary .links li a {
+								border-radius: 5px;
+								border: 0;
+								display: block;
+								font-family: Raleway, Helvetica, sans-serif;
+								font-size: 0.8em;
+								font-weight: 200;
+								letter-spacing: 0.1em;
+								line-height: 1.85em;
+								padding: 0.75em 0;
+								text-transform: uppercase;
+							}
+
+								#actuary .links li a:hover {
+									background: #45558d;
+								}
+
+					@media screen and (max-width: 736px) {
+
+						#actuary .inner {
+							max-height: 100%;
+							overflow-y: auto;
+							overflow-x: hidden;
+						}
+
+							#actuary .inner .close {
+								background-size: 1.5em 1.5em;
+							}
+
+					}
+
+				body.is-actuary-visible #page-wrapper {
+					-moz-filter: blur(1.5px);
+					-webkit-filter: blur(1.5px);
+					-ms-filter: blur(1.5px);
+					filter: blur(1.5px);
+				}
+
+				body.is-actuary-visible #actuary {
+					pointer-events: auto;
+					opacity: 1;
+					visibility: visible;
+				}
+
+					body.is-actuary-visible #actuary .inner {
+						-moz-transform: translateY(0);
+						-webkit-transform: translateY(0);
+						-ms-transform: translateY(0);
+						transform: translateY(0);
+						opacity: 1;
+					}
 
 /* Banner */
 
@@ -4113,55 +4775,137 @@ input, select, textarea {
 
 
   /* ADDED BY UDIT */
-	/* Popup container */
-.popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
+	/* Make sure that padding behaves as expected */
+	* {box-sizing:border-box}
+
+	/* Container for skill bars */
+	.container {
+		height: 5px;
+	  width: 100%; /* Full width */
+	  background-color: #ddd; /* Grey background */
+		/* background-color: #3d4051; /* Grey background */ */
+	}
+
+	.skills {
+	  text-align: match-parent; /* Right-align text */
+		color: #ffffff;
+		font-family: Raleway, Helvetica, sans-serif;
+		font-weight: 500;
+		letter-spacing: 0.1em;
+		margin: 0 0 1em 0;
+		text-transform: uppercase;
+		font-size: 10pt;
+	  /* padding-top: 5px; /* Add top padding */ */
+	  /* padding-bottom: 5px; /* Add bottom padding */ */
+	  /* color: white; /* White text color */ */
+	}
+
+	.html {height: 5px; width: 90%; background-color: #4CAF50;} /* Green */
+	.css {height: 5px; width: 80%; background-color: #2196F3;} /* Blue */
+	.js {height: 5px; width: 65%; background-color: #f44336;} /* Red */
+	.php {height: 5px; width: 60%; background-color: #808080;} /* Dark Grey */
+
+
+
+
+
+
+
+
+
+	/* body {
+  font-family: 'Ubuntu', sans-serif;
+  width:960px;
+} */
+
+/* p{
+  color:#525252;
+	color: #ffffff;
+  font-size:12px;
+} */
+
+.skillbar {
+	position:relative;
+	display:block;
+	margin-bottom:15px;
+	width:100%;
+	/* background:#eee; */
+	background:#353849;
+	height:35px;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	-webkit-transition:0.4s linear;
+	-moz-transition:0.4s linear;
+	-ms-transition:0.4s linear;
+	-o-transition:0.4s linear;
+	transition:0.4s linear;
+	-webkit-transition-property:width, background-color;
+	-moz-transition-property:width, background-color;
+	-ms-transition-property:width, background-color;
+	-o-transition-property:width, background-color;
+	transition-property:width, background-color;
 }
 
-/* The actual popup (appears on top) */
-.popup .popuptext {
-  visibility: hidden;
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -80px;
+.skillbar-title {
+	position:absolute;
+	top:0;
+	left:0;
+	/* width:110px; */
+	width:10%;
+	font-weight:bold;
+	font-size:13px;
+	color:#ffffff;
+	background:#6adcfa;
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:4px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
 }
 
-/* Popup arrow */
-.popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+.skillbar-title span {
+	display:block;
+	background:rgba(0, 0, 0, 0.1);
+	padding:0 20px;
+	height:35px;
+	line-height:35px;
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
 }
 
-/* Toggle this class when clicking on the popup container (hide and show the popup) */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s
+.skillbar-bar {
+	height:35px;
+	width:0px;
+	background:#6adcfa;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
 }
 
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+.skill-bar-percent {
+	position:absolute;
+	right:10px;
+	top:0;
+	font-size:11px;
+	height:35px;
+	line-height:35px;
+	color: #ffffff;
+	/* color: #5BF19B; /* Mint Green */ */
+	/* color:rgba(0, 0, 0, 0.4); */
+	color:rgba(255, 255, 255, 1.2);
+	/* color:rgba(179, 181, 182, 0.4); */
 }
 
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+
+
+
+
+.animation.animate {
+    animation: pulse 5s infinite;//change this to whatever you want
 }
