@@ -3468,7 +3468,7 @@ input, select, textarea {
 			-webkit-overflow-scrolling: touch;
 			/* background: rgb(40,175,176);
 			background: linear-gradient(90deg, rgba(40,175,176,1) 0%, rgba(101,126,212,1) 100%); */
-			background-color: rgba(53,59,60,0.85);
+			background-color: rgba(53,59,60,0.9);
 			border-radius: 5px;
 			display: block;
 			max-width: 100%;
@@ -3616,7 +3616,7 @@ input, select, textarea {
 				/* background: #4c5c96; */
 				/* background: rgb(40,175,176);
 				background: linear-gradient(90deg, rgba(40,175,176,1) 0%, rgba(101,126,212,1) 100%); */
-				background-color: rgba(53,59,60,0.85);
+				background-color: rgba(53,59,60,0.9);
 				border-radius: 5px;
 				display: block;
 				max-width: 100%;
@@ -3769,7 +3769,7 @@ input, select, textarea {
 					/* background: #4c5c96; */
 					/* background: rgb(40,175,176);
 					background: linear-gradient(90deg, rgba(40,175,176,1) 0%, rgba(101,126,212,1) 100%); */
-					background-color: rgba(53,59,60,0.85);
+					background-color: rgba(53,59,60,0.9);
 					border-radius: 5px;
 					display: block;
 					max-width: 100%;
@@ -3920,7 +3920,7 @@ input, select, textarea {
 						/* background: #4c5c96; */
 						/* background: rgb(40,175,176);
 						background: linear-gradient(90deg, rgba(40,175,176,1) 0%, rgba(101,126,212,1) 100%); */
-						background-color: rgba(53,59,60,0.85);
+						background-color: rgba(53,59,60,0.9);
 						border-radius: 5px;
 						display: block;
 						max-width: 100%;
