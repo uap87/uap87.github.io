@@ -23,11 +23,68 @@ section, summary, time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-	vertical-align: baseline;}
+	vertical-align: baseline;
+}
 
+#particles-js {
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: block;
+		-moz-flex-direction: column;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-moz-align-items: center;
+		-webkit-align-items: center;
+		-ms-align-items: center;
+		align-items: center;
+		-moz-justify-content: space-between;
+		-webkit-justify-content: space-between;
+		-ms-justify-content: space-between;
+		justify-content: space-between;
+		position: absolute;
+		min-height: 100vh;
+		width: 100%;
+		padding: 0;
+		/* padding: 4rem 2rem; */
+		z-index: 3;
+}
+
+	#particles-js:before {
+		content: '';
+		display: block;
+	}
+
+	@media screen and (max-width: 1680px) {
+
+		#particles-js {
+			padding: 3rem 2rem;
+		}
+
+	}
+
+	@media screen and (max-width: 736px) {
+
+		#particles-js {
+			padding: 2rem 1rem;
+		}
+
+	}
+
+	@media screen and (max-width: 480px) {
+
+		#particles-js {
+			padding: 1rem;
+		}
+
+	}
+
+	
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;}
+	display: block;
+}
 
 body {
 	line-height: 1;
