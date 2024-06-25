@@ -84,10 +84,17 @@ section, summary, time, mark, audio, video {
 
 	
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+footer, header, hgroup, menu, nav {
 	display: block;
 	position: absolute;
 	top: 30%;
+	/* transform: translate(0%, -50%); */
+}
+
+section {
+	display: block;
+	position: relative;
+	/* top: 30%; */
 	/* transform: translate(0%, -50%); */
 }
 
