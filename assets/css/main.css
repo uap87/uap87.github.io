@@ -30,7 +30,7 @@ section, summary, time, mark, audio, video {
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;
-		display: block;
+		display: flex;
 		-moz-flex-direction: column;
 		-webkit-flex-direction: column;
 		-ms-flex-direction: column;
@@ -44,7 +44,8 @@ section, summary, time, mark, audio, video {
 		-ms-justify-content: space-between;
 		justify-content: space-between;
 		position: absolute;
-		min-height: 100vh;
+		min-height: 100%;
+		height: 100%;
 		width: 100%;
 		padding: 0;
 		/* padding: 4rem 2rem; */
@@ -58,15 +59,16 @@ section, summary, time, mark, audio, video {
 
 	@media screen and (max-width: 1680px) {
 
-		#particles-js {
-			padding: 3rem 2rem;
+		#main {
+			/* padding: 3rem 2rem; */
+			padding: 2rem 2rem;
 		}
 
 	}
 
 	@media screen and (max-width: 736px) {
 
-		#particles-js {
+		#main {
 			padding: 2rem 1rem;
 		}
 
@@ -74,7 +76,7 @@ section, summary, time, mark, audio, video {
 
 	@media screen and (max-width: 480px) {
 
-		#particles-js {
+		#main {
 			padding: 1rem;
 		}
 
@@ -84,6 +86,9 @@ section, summary, time, mark, audio, video {
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
+	position: absolute;
+	top: 30%;
+	/* transform: translate(0%, -50%); */
 }
 
 body {
@@ -1585,7 +1590,7 @@ input, select, textarea {
 		-webkit-flex-direction: column;
 		-ms-flex-direction: column;
 		flex-direction: column;
-		position: relative;
+		position: absolute;
 		max-width: 100%;
 		z-index: 3;
 	}
@@ -1600,8 +1605,10 @@ input, select, textarea {
 			-ms-transition: opacity 0.325s ease-in-out, -ms-transform 0.325s ease-in-out;
 			transition: opacity 0.325s ease-in-out, transform 0.325s ease-in-out;
 			padding: 4.5rem 2.5rem 1.5rem 2.5rem ;
+			/* padding: 0rem 0rem 0rem 0rem; */
 			position: relative;
 			width: 40rem;
+			/* width: 100%; */
 			max-width: 100%;
 			background-color: rgba(27, 31, 34, 0.85);
 			border-radius: 4px;
