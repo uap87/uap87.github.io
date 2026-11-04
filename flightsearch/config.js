@@ -8,7 +8,7 @@ window.FLIGHT_CONFIG = {
   // Leave "" to call the API straight from the browser.
   // If the browser blocks the calls (CORS error shown in the app), deploy worker.js
   // as a free Cloudflare Worker and paste its URL here, e.g. "https://flights.yourname.workers.dev"
-  PROXY_URL: "",
+  PROXY_URL: "https://travelpayouts-cors-proxy.pateludit87.workers.dev",
 
   CURRENCY: "usd",
 
