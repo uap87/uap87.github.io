@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAS Exam 8 — 48-Hour Master List & Mnemonic Vault</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            slate: { 850: '#151f32', 950: '#0a0f1a' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .cloze-blank {
+      background: rgba(99, 102, 241, 0.2);
+      border-bottom: 2px dashed #818cf8;
+      color: transparent;
+      padding: 0 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .cloze-blank.revealed {
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.12);
+      border-bottom-style: solid;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- Top Header & 48-Hour Progress Bar -->
+  <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-600/30">E8</div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            CAS Exam 8 List Vault
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">38 Master Lists</span>
+          </h1>
+          <p class="text-xs text-slate-400">48-Hour Active Recall & Mnemonic System (Rising Fellow Study Guide)</p>
+        </div>
+      </div>
+
+      <!-- Progress Stats -->
+      <div class="flex items-center gap-4 bg-slate-850 px-4 py-2 rounded-xl border border-slate-800">
+        <div class="text-right">
+          <div class="text-xs text-slate-400">Lists Mastered</div>
+          <div class="text-sm font-bold text-emerald-400 mono" id="progress-text">0 / 38 (0%)</div>
+        </div>
+        <div class="w-36 bg-slate-800 h-2.5 rounded-full overflow-hidden">
+          <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <button onclick="resetProgress()" title="Reset Progress" class="text-xs text-slate-400 hover:text-rose-400 transition px-2 py-1 rounded border border-slate-700 hover:border-rose-500/40">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs & Filters -->
+    <div class="max-w-7xl mx-auto mt-3 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+      <!-- Mode Switcher -->
+      <div class="flex flex-wrap gap-1.5" id="mode-tabs">
+        <button onclick="setMode('browse')" data-mode="browse" class="mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white">
+          1. Browse & Mnemonics
+        </button>
+        <button onclick="setMode('flashcards')" data-mode="flashcards" class="mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+          2. Active Recall Flashcards
+        </button>
+        <button onclick="setMode('cloze')" data-mode="cloze" class="mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+          3. Cloze Fill-in-the-Blanks
+        </button>
+        <button onclick="setMode('quiz')" data-mode="quiz" class="mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+          4. Rapid Match Quiz
+        </button>
+        <button onclick="setMode('sprint')" data-mode="sprint" class="mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-800 text-amber-300 hover:bg-slate-700">
+          ⏱ 48-Hr Sprint Plan
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap items-center gap-2">
+        <select id="section-filter" onchange="applyFilters()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-indigo-500">
+          <option value="ALL">All Syllabus Sections (38)</option>
+          <option value="Sec 1: Credibility Papers">Sec 1: Bailey/Simon, Mahler, Couret/Venter (9)</option>
+          <option value="Sec 2: GLM Ch 2-5">Sec 2: GLM Ch. 2–5 Fundamentals & Form (12)</option>
+          <option value="Sec 3: GLM Ch 6-10">Sec 3: GLM Ch. 6–10 Validation & Variations (9)</option>
+          <option value="Sec 4: Lasso & Chalk">Sec 4: Holmes/Casotto Lasso & Chalk (8)</option>
+        </select>
+
+        <select id="status-filter" onchange="applyFilters()" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-indigo-500">
+          <option value="ALL">All Statuses</option>
+          <option value="UNMASTERED">Needs Review Only</option>
+          <option value="MASTERED">Mastered Only</option>
+        </select>
+
+        <input id="search-input" oninput="applyFilters()" type="text" placeholder="Search lists or mnemonics..." class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-44 md:w-56" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
+    <!-- Mode 1: Browse & Mnemonics -->
+    <section id="view-browse" class="space-y-4"></section>
+
+    <!-- Mode 2: Flashcards -->
+    <section id="view-flashcards" class="hidden max-w-3xl mx-auto"></section>
+
+    <!-- Mode 3: Cloze Deletion -->
+    <section id="view-cloze" class="hidden space-y-4"></section>
+
+    <!-- Mode 4: Rapid Match Quiz -->
+    <section id="view-quiz" class="hidden max-w-3xl mx-auto"></section>
+
+    <!-- Mode 5: 48-Hour Sprint Plan -->
+    <section id="view-sprint" class="hidden max-w-4xl mx-auto space-y-6"></section>
+  </main>
+
+  <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
+    Built for CAS Exam 8 • Keyboard Shortcuts in Flashcard Mode: <span class="mono text-slate-300">Space</span> (Flip), <span class="mono text-slate-300">H</span> (First-Letter Hint), <span class="mono text-slate-300">M</span> (Toggle Mastered), <span class="mono text-slate-300">← / →</span> (Prev / Next)
+  </footer>
+
+  <script>
+    // =========================================================================
+    // MASTER DATABASE OF ALL 38 EXAM 8 LISTS & MNEMONICS
+    // =========================================================================
+    const EXAM8_LISTS = [
+      // SECTION 1: CREDIBILITY PAPERS
+      {
+        id: 1,
+        section: "Sec 1: Credibility Papers",
+        source: "Bailey & Simon (p. 4)",
+        title: "2 Conditions for Using Premium to Eliminate Maldistribution",
+        mnemonic: "HP-TD — 'High Premiums, Territory Differentials'",
+        memoryHook: "Why use Earned Premium instead of Car Years in univariate merit rating? Only works if HP and TD hold!",
+        items: [
+          "High frequency territories are also high premium territories",
+          "Territory differentials are proper"
+        ]
+      },
+      {
+        id: 2,
+        section: "Sec 1: Credibility Papers",
+        source: "Bailey & Simon (p. 9)",
+        title: "3 Key Conclusions of Bailey & Simon",
+        mnemonic: "1-V-L — '1 Car is credible, Variation boosts Z, Length grows sub-proportionally'",
+        memoryHook: "Think of a 1-Valve Engine (1-V-L): 1 car-year matters, internal hazard Variation drives Z up, and Length of experience period increases Z less than 1:2:3.",
+        items: [
+          "The experience for one car for one year has significant and measurable credibility for experience rating",
+          "Credibility within a class increases as the variation of individual hazards within the class increases (higher ratio of 3-yr Z to annual claim freq = broader class)",
+          "As the length of the prior experience period increases, the relative credibility increases, but less than proportionally (due to risks entering/leaving and Z = P/(P+K))"
+        ]
+      },
+      {
+        id: 3,
+        section: "Sec 1: Credibility Papers",
+        source: "Mahler (p. 11, 30)",
+        title: "2 Rules When Risk Parameters Are Shifting Over Time",
+        mnemonic: "R-R — 'Recent Weight & Rapid Data'",
+        memoryHook: "When parameters shift (like a 16-to-19 year old driver), don't rely on stale history.",
+        items: [
+          "Place more credibility on recent data and less credibility on older data",
+          "Minimize the delay in receiving experience data that is used to estimate the future"
+        ]
+      },
+      {
+        id: 4,
+        section: "Sec 1: Credibility Papers",
+        source: "Mahler (p. 12)",
+        title: "3 Advantages of Baseball Datasets Over Insurance Data",
+        mnemonic: "C-A-S — 'Constant teams, Accurate/Final losses, Same size risks'",
+        memoryHook: "CAS exams love baseball because the data is C-A-S!",
+        items: [
+          "Constant set of risks (teams) over an extended period of time (insureds aren't constantly entering/leaving)",
+          "Loss data is readily available, accurate, and final (no reporting errors or loss development)",
+          "Loss experience is generated by risks of roughly equal size (each team plays ~same games, so no need to model dependence of credibility on risk size)"
+        ]
+      },
+      {
+        id: 5,
+        section: "Sec 1: Credibility Papers",
+        source: "Mahler (p. 13–17)",
+        title: "2 Methods to Test for Shifting Parameters Over Time",
+        mnemonic: "Chi-Pair — 'Chi-Squared Intervals & Pairwise Lag Correlations'",
+        memoryHook: "Test 1 buckets time into intervals; Test 2 checks if correlation decays as lag n grows.",
+        items: [
+          "Chi-Squared Test: Group data into n equal time intervals, compute sum of (Actual - Expected)^2 / Expected, and compare to Chi-Squared critical value with n - 1 degrees of freedom (reject null of no shift if test stat > critical value)",
+          "Pair Correlation Test: Calculate correlation across all risks for pairs of years separated by lag n (1-yr, 2-yr, etc.); if average correlation decreases as time lag increases, risk parameters are shifting"
+        ]
+      },
+      {
+        id: 6,
+        section: "Sec 1: Credibility Papers",
+        source: "Mahler (p. 19, 26–27)",
+        title: "6 Credibility Weighting Solutions (4 Simple + 2 General)",
+        mnemonic: "A-R-C-E-E-V — 'Average, Repeat, Cred-1, Equal-N, Exponential Smoothing, Varying'",
+        memoryHook: "Walk from Z=0 (Average) to Z=1 (Repeat), then blend 1 year, N equal years, geometrically decaying years, and free varying weights.",
+        items: [
+          "Method 1 (Every risk is average): X_est = mu (gives Z = 0 credibility to past data)",
+          "Method 2 (Most recent year repeats): X_est = Y_1 (gives Z = 1 full credibility to latest year)",
+          "Method 3 (Credibility weight most recent year & grand mean): X_est = Z * Y_1 + (1 - Z) * mu",
+          "Method 4 (Equal weight to N most recent years): X_est = (Z / N) * Sum(Y_i) + (1 - Z) * mu",
+          "Method 5 (Combine previous estimate & most recent data / Exponential Smoothing): X_est = Z * Y_1 + Z(1-Z) * Y_2 + ... + (1-Z)^N * mu (geometrically decreasing weights)",
+          "Method 6 (More general varying weights): X_est = Sum(Z_i * Y_i) + (1 - Sum(Z_i)) * mu"
+        ]
+      },
+      {
+        id: 7,
+        section: "Sec 1: Credibility Papers",
+        source: "Mahler (p. 21, 29–30)",
+        title: "3 Criteria to Decide Between Credibility Solutions",
+        mnemonic: "L-S-M — 'Least Squares, Small Chance of Large Error, Meyers/Dorweiler'",
+        memoryHook: "First two penalize error SIZE; Meyers/Dorweiler penalizes error PATTERN (correlation between A and B).",
+        items: [
+          "Least Squared Error (Buhlmann/Bayesian): Minimize MSE; focuses on eliminating large errors (max MSE reduction from weighting two estimates is 75% of min(MSE_Z=0, MSE_Z=1))",
+          "Small Chance of Large Errors (Limited Fluctuation): Minimize Pr(|Actual - Pred|/Pred > threshold); focuses on eliminating large errors",
+          "Meyers/Dorweiler: Drive correlation between A = Actual/Predicted and B = Predicted/Overall Average closest to 0; indifferent to large errors as long as there is no systematic pattern relating errors to the mod"
+        ]
+      },
+      {
+        id: 8,
+        section: "Sec 1: Credibility Papers",
+        source: "Couret & Venter (p. 33–34)",
+        title: "6 Workers' Compensation Injury Types & Relative Severity/Frequency",
+        mnemonic: "F-P-M-M-T-M — 'Fatalities Put Major Miners Temporarily Medicated'",
+        memoryHook: "TT (Temporary Total) is the base (Rel Freq = 1.0, Rel Sev = 1.0). PT has the highest relative severity (125x TT)!",
+        items: [
+          "Fatal (F) — Rel Freq: 0.006 | Rel Sev: 60",
+          "Permanent Total (PT) — Rel Freq: 0.006 | Rel Sev: 125 (Highest Severity)",
+          "Major Permanent Partial (Major) — Rel Freq: 0.085 | Rel Sev: 40",
+          "Minor Permanent Partial (Minor) — Rel Freq: 0.37 | Rel Sev: 4",
+          "Temporary Total (TT) — Base Injury Type (Rel Freq: 1.00 | Rel Sev: 1.00); used as denominator m_i",
+          "Medical-Only (Med) — Rel Freq: 4.3 | Rel Sev: 0.2"
+        ]
+      },
+      {
+        id: 9,
+        section: "Sec 1: Credibility Papers",
+        source: "Couret & Venter (p. 41–43)",
+        title: "4 Steps of the Quintiles Test for Multi-Dimensional Credibility",
+        mnemonic: "S-A-R-S — 'Sort by Pred, Average Ratios, Relativities to HG, Sum Squared Error'",
+        memoryHook: "Even years train, Odd years holdout! Group into 5 quintiles of equal TT counts to smooth out class-level noise.",
+        items: [
+          "1. Sort & Bucket: Sort classes by ascending predicted ratio from multi-dimensional credibility (even years) and assign into 5 quintiles with equal TT claim counts",
+          "2. Calculate Averages: For each quintile, compute holdout (odd-year) ratio and 3 even-year estimates: Raw Even-Year, Credibility-Weighted, and Hazard Group overall",
+          "3. Compute Relativities: Divide each quintile's average injury-type:TT ratio by the combined Hazard Group ratio (all quintiles combined)",
+          "4. Sum of Squared Errors: Calculate SSE = Sum((Rel_quintile - Rel_holdout)^2) across quintiles; Credibility-Weighted SSE should be lowest"
+        ]
+      },
+
+      // SECTION 2: GLM CH 2-5
+      {
+        id: 10,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 2 (p. 48–49)",
+        title: "3 Advantages of Multiplicative Rating Models (Log Link)",
+        mnemonic: "S-P-I — 'Simple, Positive, Intuitive'",
+        memoryHook: "Why exponentiate the linear predictor? S-P-I.",
+        items: [
+          "Simple and practical to implement in rating tables",
+          "Guarantees positive premiums (additive models can produce nonsensical negative premiums)",
+          "More intuitive (a percentage surcharge/discount scales naturally with the base premium size)"
+        ]
+      },
+      {
+        id: 11,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 2 (p. 50, 61–63)",
+        title: "7 Exponential Family Distributions, Variance Functions V(mu) & Tweedie Powers",
+        mnemonic: "N-P-T-G-I = Powers 0, 1, (1,2), 2, 3 + NB & Binomial",
+        memoryHook: "Power p of mu^p steps 0 -> 1 -> (1,2) -> 2 -> 3 for Normal, Poisson, Tweedie, Gamma, Inverse Gaussian!",
+        items: [
+          "Normal (p = 0): V(mu) = 1 | Variance = phi (constant variance, independent of mean)",
+          "Poisson (p = 1): V(mu) = mu | Variance = phi * mu (phi = 1 for standard Poisson; phi > 1 for Overdispersed Poisson / ODP)",
+          "Tweedie (1 < p < 2): V(mu) = mu^p | Compound Poisson-Gamma for Pure Premium (point mass at 0 + right-skewed)",
+          "Gamma (p = 2): V(mu) = mu^2 | Moderate right-skewness for Severity",
+          "Inverse Gaussian (p = 3): V(mu) = mu^3 | Extreme right-skewness (sharper peak & heavier tail than Gamma) for Severity",
+          "Negative Binomial: V(mu) = mu(1 + kappa * mu) with phi = 1 | Poisson mean is Gamma-distributed",
+          "Binomial: V(mu) = mu(1 - mu) | Used with Logit link ln(mu/(1-mu)) for binary outcomes"
+        ]
+      },
+      {
+        id: 12,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 2 (p. 64–65)",
+        title: "3 Ways to Determine the Tweedie Power Parameter p",
+        mnemonic: "E-C-J — 'Estimate in fit, Cross-validate candidates, Judgmentally select'",
+        memoryHook: "Remember p = (alpha + 2)/(alpha + 1) depends only on Gamma CV = 1/sqrt(alpha). How do we pick p in practice? E-C-J.",
+        items: [
+          "Estimate p automatically as part of the model-fitting process (can take a long time on large datasets)",
+          "Test several candidate values of p to optimize log-likelihood or cross-validation error",
+          "Judgmentally select a value based on best practice (e.g., 1.6, 1.67, or 1.7) since fine-tuning p rarely impacts predictions materially"
+        ]
+      },
+      {
+        id: 13,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 2 (p. 66–67)",
+        title: "3 Correlation Concepts (Correlation, Multicollinearity, Aliasing) & 2 Fixes",
+        mnemonic: "2-Way vs. VIF > 10 vs. Perfect Aliasing | Fixes: Drop or PCA",
+        memoryHook: "Multicollinearity hides from 2-way tables—catch it with VIF > 10!",
+        items: [
+          "Pairwise Correlation: Detected via 2-way correlation tables before modeling; causes erratic coefficients & high standard errors",
+          "Multicollinearity: Two or more predictors jointly predict another predictor (invisible in 2-way tables); detected via Variance Inflation Factor (VIF > 10 is large)",
+          "Aliasing: Predictors are perfectly correlated (software auto-drops one, but near-aliasing causes severe instability)",
+          "Fix 1: Remove all but one of the correlated predictors (downside: loses unique information)",
+          "Fix 2: Pre-process data using dimension-reduction techniques like Principal Component Analysis (PCA) or Factor Analysis"
+        ]
+      },
+      {
+        id: 14,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 2 & Ch. 10 (p. 68, 145)",
+        title: "5 Core Limitations / Shortcomings of Traditional GLMs",
+        mnemonic: "L-T-C-U-C — 'Linear predictor, Thin/Correlated instability, Credibility=100%, Uncorrelated errors, Constant phi'",
+        memoryHook: "These 5 flaws motivate GLMMs, DGLMs, GAMs, MARS, and Penalized Regression!",
+        items: [
+          "Predictions must be based on a linear function of the predictors",
+          "GLMs can be unstable when data is thin or when predictors are highly correlated",
+          "Full credibility (100%) is given to the data for every parameter regardless of exposure volume",
+          "GLMs assume the random component of outcomes is uncorrelated among observations (violated by multi-year policy renewals)",
+          "The dispersion parameter phi must be held constant across all risks"
+        ]
+      },
+      {
+        id: 15,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 3 (p. 69–72)",
+        title: "9 Steps of the GLM Model-Building Process & 3 Key Stakeholders",
+        mnemonic: "O-S-D-E-F-E-V-T-M | Stakeholders: R-I-A (Regulators, IT, Agents/UW)",
+        memoryHook: "Step 3 (Collecting & Processing Data) is always the longest portion of the project!",
+        items: [
+          "1. Setting Objectives and Goals (scope, data availability, timeline, risks, expertise)",
+          "2. Communicating with Key Stakeholders: Regulators (rate/variable restrictions), IT (coding/system constraints), Agents & Underwriters (sales buy-in & domain expertise)",
+          "3. Collecting and Processing Data (merging, cleaning, imputing — takes the LONGEST time)",
+          "4. Conducting Exploratory Data Analysis / EDA (univariate response plots & predictor correlation plots)",
+          "5. Specifying Model Form (model family, target, predictors, transformations, link function)",
+          "6. Evaluating Model Output (overall fit, predictor significance, lift over current plan)",
+          "7. Validating the Model (out-of-sample test set lift charts, ROC/Gini)",
+          "8. Translating the Model into a Product (clarity, adjusting for non-modeled variables)",
+          "9. Maintaining and Rebuilding the Model (routine rebuilds or refits on newer data)"
+        ]
+      },
+      {
+        id: 16,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 4 (p. 73–74)",
+        title: "5 Key Questions When Merging Policy & Claim Databases",
+        mnemonic: "C-K-A-D-M — 'Cadence, Key, Aggregation, Discard, Missing'",
+        memoryHook: "Before joining policy exposures to claims, check C-K-A-D-M.",
+        items: [
+          "Cadence: Are the datasets updated on different time cadences (e.g., month-end policy vs. daily claims)?",
+          "Unique Key: Is there a unique key matching each claim record to a single policy/vehicle record without double-counting?",
+          "Aggregation Level: What level of detail should datasets be aggregated to before merging (e.g., calendar year, accounting for partial exposures)?",
+          "Discard Fields: Are there redundant or non-predictive fields that should be discarded to speed up modeling?",
+          "Missing Fields: Are there potentially predictive fields missing from the databases that management should start collecting?"
+        ]
+      },
+      {
+        id: 17,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 4 (p. 74–75)",
+        title: "4 Steps for Catching & Correcting Data Errors",
+        mnemonic: "D-C-N-H — 'Duplicates, Cross-check categorical, Numerical bounds, Handle/Impute'",
+        memoryHook: "Clean your data before splitting into Train/Validation/Test (40%/30%/30% or 70%/30%).",
+        items: [
+          "Check for duplicate records prior to data aggregation and merging (delete duplicates)",
+          "Cross-check categorical fields against documentation (investigate unexpected extra levels)",
+          "Check numerical fields for unreasonable/outlier values (e.g., $30 original truck cost)",
+          "Decide how to handle each error or missing value: replace with mean/mode, or impute by building a secondary model using other predictors"
+        ]
+      },
+      {
+        id: 18,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 5 (p. 81–82)",
+        title: "4 Advantages of Separate Frequency & Severity Models vs. Single Tweedie Model",
+        mnemonic: "I-S-O-D — 'Insight, Stability/Underfitting, Overfitting, Direction'",
+        memoryHook: "Tweedie saves time, but separate Freq x Sev wins on I-S-O-D.",
+        items: [
+          "Insight: Provides clear insight into which variables drive frequency vs. severity (and reveals offsetting effects)",
+          "Stability (Avoids Underfitting): Frequency and severity are more stable individually; high severity variance in pure premium can mask a real frequency predictor",
+          "Avoids Overfitting: Pure premium models compromise between frequency and severity effects and may pick up random severity noise",
+          "Relaxes Directional Assumption: Tweedie assumes frequency and severity move in the same direction for every predictor; separate models allow opposite effects"
+        ]
+      },
+      {
+        id: 19,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 5 (p. 83–84)",
+        title: "5 Target Variable Transformations & Temporal Adjustments",
+        mnemonic: "L-C-D-O-T — 'Large losses, Catastrophes, Development, On-level, Trend'",
+        memoryHook: "You can either adjust the target variable for D-O-T (Development, On-level, Trend) OR include a Year control variable in the GLM!",
+        items: [
+          "Large Losses: Cap infrequent large losses to avoid fitting noise (use Cook's distance to select cap)",
+          "Catastrophes: Remove cat losses and build a separate cat model (or reduce weights / adjust downward)",
+          "Loss Development: Develop to ultimate (known claims only for Severity; known + pure IBNR for Pure Premium/Loss Ratio)",
+          "On-Level Premium: On-level historical premiums when modeling Loss Ratio",
+          "Trending: Trend losses/exposures to a common level (or include Calendar/Accident Year as a predictor to absorb temporal effects)"
+        ]
+      },
+      {
+        id: 20,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 5 (p. 85)",
+        title: "4 Criteria for Selecting Variables in a Rating Plan",
+        mnemonic: "S-C-A-Q — 'Statistical significance, Cost-effectiveness, ASOPs/Regulators, Quoting/IT'",
+        memoryHook: "A variable needs more than a low p-value to make it into production: S-C-A-Q.",
+        items: [
+          "Statistical Significance: Supported by low p-values and narrow standard errors",
+          "Cost-Effectiveness: Economical to collect and verify when writing new and renewal business",
+          "ASOPs & Regulatory Requirements: Permitted by state regulators and actuarial standards",
+          "Quoting & Rating Systems: IT quoting and rating engines can be easily modified to handle the variable"
+        ]
+      },
+      {
+        id: 21,
+        section: "Sec 2: GLM Ch 2-5",
+        source: "GLM Ch. 5 (p. 87–90)",
+        title: "4 Methods for Non-Linear Continuous Predictors (Pros & Cons)",
+        mnemonic: "B-P-H-S — 'Binning, Polynomials, Hinge Functions, Splines'",
+        memoryHook: "Detected via Partial Residual plots r_i = (y_i - mu_i)g'(mu_i) + beta_j * x_ij. Fixed via B-P-H-S.",
+        items: [
+          "Binning (Categorical): Cons — wastes degrees of freedom, continuity not guaranteed (reversals), ignores variation within intervals",
+          "Polynomial Terms (x + x^2): Cons — loss of interpretability, erratic behavior at the edges/tails of the data",
+          "Piecewise Linear / Hinge Functions max(0, x - c): Pros — fits non-linear patterns, easy to interpret slope changes. Cons — user must manually pick breakpoints, curve is not differentiable (kinked) at breakpoints",
+          "Natural Cubic Splines: Pros — smooth 1st & 2nd derivatives through breakpoints, restricted to linear fit at tails to prevent erratic edge behavior. Cons — must graph to interpret"
+        ]
+      },
+
+      // SECTION 3: GLM CH 6-10
+      {
+        id: 22,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 6 (p. 101–104)",
+        title: "2 Deviance Comparison Caveats + Nested F-Test vs. AIC/BIC",
+        mnemonic: "Same Data + Same Distribution | F-Test (Nested) vs. AIC/BIC (Penalized)",
+        memoryHook: "BIC penalizes parameters by ln(n) instead of 2, so BIC penalizes complexity much harder than AIC!",
+        items: [
+          "Caveat 1 (Identical Dataset): Log-likelihood/deviance comparisons are invalid if records are added or dropped (e.g., new predictor with missing values dropping rows)",
+          "Caveat 2 (Identical Distribution): Deviance comparisons require the exact same assumed error distribution (since saturated model likelihood changes with distribution)",
+          "Nested Models (F-Test): F = (D_small - D_big) / ((# added params) * phi_big); compare to F-distribution with df1 = added params, df2 = n - p_big",
+          "Penalized Fit (AIC & BIC): AIC = -2*ll + 2p; BIC = -2*ll + p*ln(n). Lower is better; AIC is preferred by Goldburd since BIC's heavy ln(n) penalty can exclude predictive variables"
+        ]
+      },
+      {
+        id: 23,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 6 (p. 105–114)",
+        title: "3 Residual Diagnostic Tools & 3 Binned Working Residual Plots",
+        mnemonic: "Deviance (Q-Q/Hist) vs. Quantile (Jitter) vs. Working (3 Plots: LP, X, Weight)",
+        memoryHook: "If Q-Q plot curves up in the right tail under Gamma, switch to Inverse Gaussian!",
+        items: [
+          "Deviance Residuals: Checked via Histogram & Normal Q-Q Plot for normality and homoscedasticity (if right-skewed under Gamma, try Inverse Gaussian)",
+          "Randomized Quantile Residuals: Adds random jitter to discrete/point-mass distributions (Poisson, Tweedie) to break up tight clusters",
+          "Binned Working Residuals vs. Linear Predictor: Checks for systematic over/under-prediction across low/mid/high predictions",
+          "Binned Working Residuals vs. Predictor X: Checks for missed non-linear effects (e.g., parabolic arch fixed by adding a hinge function)",
+          "Binned Working Residuals vs. Weight (Exposures): Funnel/fanning-out shape on the left indicates exposure weights must be included"
+        ]
+      },
+      {
+        id: 24,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 6 (p. 114–115)",
+        title: "3 Methods to Assess Model Stability",
+        mnemonic: "C-C-B — 'Cook's Distance, Cross-Validation, Bootstrapping'",
+        memoryHook: "How sensitive are parameter estimates to data changes or outliers? Check C-C-B.",
+        items: [
+          "Cook's Distance: Measures an individual outlier record's leverage/influence on model coefficients (used to set loss caps or down-weight outliers)",
+          "Cross-Validation: Refits the model on k subsets of training data to verify parameter consistency",
+          "Bootstrapping: Randomly samples training dataset WITH replacement (same size n) many times and refits model to check parameter stability"
+        ]
+      },
+      {
+        id: 25,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 7 (p. 117–118)",
+        title: "3 Cautions When Using Plots of Actual vs. Predicted",
+        mnemonic: "H-A-L — 'Holdout Data, Aggregate Buckets, Log Scale'",
+        memoryHook: "Don't let HAL fool your Actual vs. Expected plots!",
+        items: [
+          "Must be evaluated on Holdout Data (training data plots look artificially good)",
+          "Aggregate records into buckets of equal model weight before plotting (individual records are too noisy)",
+          "Plot on a Log Scale if a few extreme values skew the graph"
+        ]
+      },
+      {
+        id: 26,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 7 (p. 119)",
+        title: "3 Criteria for Evaluating Quantile Plots (Decile/Quintile Plots)",
+        mnemonic: "P-M-V — 'Predictive Accuracy, Monotonicity, Vertical Spread'",
+        memoryHook: "When comparing two decile plots, check P-M-V.",
+        items: [
+          "Predictive Accuracy: How closely the model's predicted pure premium tracks the actual pure premium in each quantile",
+          "Monotonicity: Actual pure premium should steadily increase across quantiles with minimal reversals",
+          "Vertical Distance (Spread): A wider vertical spread between the 1st quantile (best risks) and last quantile (worst risks) demonstrates superior risk segmentation/lift"
+        ]
+      },
+      {
+        id: 27,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 7 (p. 118–137)",
+        title: "5 Model Validation & Lift Tools (Quantile, Double Lift, LR, Gini, ROC)",
+        mnemonic: "Q-D-L-G-R — Know the Sort Variable & Axes for Every Chart!",
+        memoryHook: "Exam favorite: Know what variable sorts the data for Quantile vs. Double Lift vs. Loss Ratio vs. Lorenz!",
+        items: [
+          "Quantile Plot: Sort by Model Predicted Pure Premium; bucket into equal-exposure quantiles; compare actual vs. predicted",
+          "Double Lift Chart: Sort by Sort Ratio = Model_A_Pred / Model_B_Pred; bucket into equal-exposure quantiles; model tracking actuals in extreme quantiles wins",
+          "Loss Ratio Chart: Sort by Predicted Loss Ratio (Modeled PP / Current Prem); plot Actual Loss Ratio per quantile (simplest to explain to business stakeholders)",
+          "Gini Index & Lorenz Curve: Sort by Predicted Pure Premium; plot Cum % Exposures (x) vs. Cum % Actual Losses (y); Gini = 2 * Area between Line of Equality and Lorenz Curve",
+          "ROC Curve (Logistic Regression): Plot False Positive Rate (1 - Specificity, x-axis) vs. True Positive Rate (Sensitivity, y-axis) across discrimination thresholds (AUROC = 0.5 random, 1.0 perfect; never use both ROC and Gini)"
+        ]
+      },
+      {
+        id: 28,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 8 (p. 139–140)",
+        title: "3 Purposes & 6 Stakeholder Requirements of Model Documentation",
+        mnemonic: "Purposes: C-T-C | Requirements: R-A-D-E-P-A",
+        memoryHook: "Check yourself, Transfer knowledge, Comply with stakeholders -> R-A-D-E-P-A.",
+        items: [
+          "3 Purposes: (1) Serve as a check on your work & improve communication skills; (2) Allow transfer of knowledge to next owner; (3) Comply with internal & external stakeholders",
+          "Req 1 (Reproducibility): Include everything needed to reproduce the model from source data to output (including commented production code)",
+          "Req 2 (Assumptions): Include all assumptions and justifications for decisions",
+          "Req 3 (Data Issues): Disclose all data issues encountered and their solutions",
+          "Req 4 (External Reliance): Discuss any reliance on external models or stakeholders",
+          "Req 5 (Performance & Shortcomings): Discuss model performance, structure, and shortcomings",
+          "Req 6 (Standards): Comply with ASOP 41 on actuarial communications"
+        ]
+      },
+      {
+        id: 29,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 9 (p. 141–143)",
+        title: "3 Special GLM Topics: Coverage Options, Territory Modeling & Ensembling",
+        mnemonic: "Offset Deductibles, Iterate Spatial Territory, Average Independent Ensembles",
+        memoryHook: "Why does a GLM say higher deductibles have higher losses? Risk appetite & underwriter forcing!",
+        items: [
+          "Coverage Options (Deductibles/Limits): Do NOT model in a GLM—correlates with uncaptured risk appetite or UW requirements, causing counter-intuitive surcharges that induce adverse selection. Model via loss elimination ratios and input as an offset",
+          "Territory Modeling: Too many levels (thousands of zips) for a standard GLM. Model externally via spatial smoothing and iterate back-and-forth with the main GLM using offsets until convergence",
+          "Ensembling: Average predictions from 2+ well-built models to balance out segment errors; requires model errors to be uncorrelated (best built by independent teams)"
+        ]
+      },
+      {
+        id: 30,
+        section: "Sec 3: GLM Ch 6-10",
+        source: "GLM Ch. 10 (p. 145–151)",
+        title: "5 Variations on the GLM (GLMM, DGLM, GAM, MARS, Elastic Net)",
+        mnemonic: "Mixed (Random gamma), Double (Dispersion phi_i), GAM (Smooth f), MARS (Auto-Hinge), Elastic (L1+L2)",
+        memoryHook: "Match each GLM shortcoming to the exact GLM variation that solves it!",
+        items: [
+          "GLMM (Generalized Linear Mixed Model): Treats sparse categorical levels (or Policy ID renewals) as random effects (gamma ~ Normal) with no base level; shrinks sparse levels toward grand mean (Stage 1: fixed params + random dist; Stage 2: Bayesian shrinkage)",
+          "DGLM (Double GLM): Models dispersion phi_i via its own GLM link function; gives more weight to stable business, provides full outcome distribution, and relaxes Tweedie directional assumption",
+          "GAM (Generalized Additive Model): Replaces linear predictor with sum of smooth non-linear functions f_j(x_j) without manual feature engineering (must graph to interpret)",
+          "MARS (Multivariate Adaptive Regression Splines): Automatically builds hinge functions, optimizes cutpoints, performs variable selection, and detects 2-way/3-way interactions",
+          "Elastic Net GLM: Minimizes Deviance + lambda * [alpha * Sum|beta| + (1-alpha)*0.5*Sum(beta^2)]; incorporates credibility, automatic variable selection (Lasso alpha=1), and tames correlated predictors (Ridge alpha=0)"
+        ]
+      },
+
+      // SECTION 4: HOLMES & CASOTTO (LASSO CREDIBILITY) & CHALK
+      {
+        id: 31,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto Ch. 1 & 4 (p. 157, 177–178)",
+        title: "5 Limitations of P-Values & How Lasso Penalization Solves Each",
+        mnemonic: "B-G-A-I-U — 'Binary, Guidance near 0.05, Arbitrary threshold, Iterative post-hoc, Univariate adjustments'",
+        memoryHook: "High-probability exam question contrasting traditional GLM p-value workflow against Lasso!",
+        items: [
+          "1. Binary Decision: P-values only ask 'Is beta likely non-zero?' (0% or 100% credibility) -> Lasso asks 'How much can we trust beta?' (continuous partial credibility)",
+          "2. No Guidance Near Threshold: GLM gives no rule for p-values just above/below 0.05 -> Lasso automatically shrinks coefficients to optimize the bias-variance trade-off",
+          "3. Arbitrary Threshold: The 0.05 cutoff is arbitrary -> Lasso tunes lambda specifically for the dataset via cross-validation",
+          "4. Iterative Post-Hoc Process: Adding/removing variables alters other p-values -> Lasso evaluates and removes non-credible variables simultaneously during fitting",
+          "5. Suboptimal Univariate Adjustments: Post-modeling credibility adjustments ignore correlations -> Lasso applies credibility on a multivariate basis during model fitting"
+        ]
+      },
+      {
+        id: 32,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto Ch. 2 & 4 (p. 162, 173–176)",
+        title: "3 Properties of Multivariate Credibility & Bias-Variance Trade-Off",
+        mnemonic: "Not NLL + Shrink by N + Fit In-Model | MSE = Bias^2 + Variance",
+        memoryHook: "High Bias = Underfit (too few vars / huge lambda); High Variance = Overfit (too many vars / lambda=0).",
+        items: [
+          "Property 1: Estimation must not rely solely on maximizing log-likelihood (which assigns 100% credibility to data)",
+          "Property 2: Estimates must shrink toward the complement of credibility, with shrinkage magnitude depending on exposure count N",
+          "Property 3: Credibility weighting must be applied within the multivariate fitting procedure (not post-hoc) to account for predictor correlations",
+          "Bias-Variance Trade-Off: MSE = Bias^2 + Variance. Shrinking coefficients toward a stable complement introduces slight Bias but reduces Variance by more, lowering total out-of-sample MSE"
+        ]
+      },
+      {
+        id: 33,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto Ch. 3 (p. 167–171)",
+        title: "4 Benefits of Lasso Sparsity & Variable Transformation Rules",
+        mnemonic: "S-I-M-Q — 'Stable, Interpretable, Materiality boundary, Quick response'",
+        memoryHook: "Warning: Changing the base level in a penalized GLM CAN change fitted values! Use Ordinal steps for non-linear continuous variables.",
+        items: [
+          "Sparsity Benefit 1 (Stability): Sparse pricing models are more stable than dense models",
+          "Sparsity Benefit 2 (Interpretability): Simpler to interpret for internal stakeholders, regulators, and policyholders",
+          "Sparsity Benefit 3 (Materiality Standard): Automatically sets a statistical materiality boundary, separating statistical vs. actuarial judgment",
+          "Sparsity Benefit 4 (Quick Response): Once a variable passes the materiality threshold, Lasso coefficients grow toward the signal much faster than Ridge/Elastic Net",
+          "Transformation Rules: Standardize predictors (mean 0, SD 1) before fitting; changing categorical base level changes fitted values; convert continuous variables to stepwise Ordinal variables to smooth reversals without correlated polynomial issues"
+        ]
+      },
+      {
+        id: 34,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto Ch. 5 (p. 179–186)",
+        title: "3 Requirements for Lasso Credibility & 6 Possible Complements",
+        mnemonic: "Reqs: O-O-P (Offset, Ordinal/Cat, Penalized) | Complements: 1-P-C-E-C-I",
+        memoryHook: "Indicated Factor = exp(beta_offset + beta_modeled) = Offset Factor * Modeled Factor!",
+        items: [
+          "Requirement 1: An Offset column (beta_j,offset) representing the complement of credibility included alongside the predictor X_j itself",
+          "Requirement 2: An Ordinal or Categorical treatment of all predictor variables (models credible differences from complement at each step)",
+          "Requirement 3: Penalized regression (Lasso) used as the credibility procedure",
+          "6 Complements of Credibility: (1) 1.0 relativity, (2) Prior loss model relativities, (3) Countrywide loss model, (4) Existing rating plan, (5) Competitor relativities, (6) Industry relativities"
+        ]
+      },
+      {
+        id: 35,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto Ch. 5 (p. 183–184)",
+        title: "4 Reasons to Increase vs. 3 Reasons to Decrease Penalty Parameter Lambda",
+        mnemonic: "Increase: M-S-V-J (Mitigate, Stability, Volatility, Judgment) | Decrease: D-C-O",
+        memoryHook: "Higher lambda = more weight on Complement. Lower lambda = more weight on Subject Experience.",
+        items: [
+          "Increase Lambda 1 (Mitigate Impacts): Keep rates closer to current rating plan complement to reduce policyholder disruption",
+          "Increase Lambda 2 (Improve Stability): Smooth out unstable factors or ordinal reversals in small datasets",
+          "Increase Lambda 3 (Understated Volatility): Compensate when data volatility is artificially smoothed by trending, IBNR factors, or generic case reserves",
+          "Increase Lambda 4 (Professional Judgment): Actuary judges a more conservative model is appropriate",
+          "Decrease Lambda 1–3 (More Credibility to Data): (1) Complement has known Deficiencies, (2) Known Change of significant magnitude from complement, (3) Complement comes from an Older data source"
+        ]
+      },
+      {
+        id: 36,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto Ch. 6 & 7 (p. 187–191, 206)",
+        title: "Lasso Diagnostics: Complement Credibility Scenarios, 3 Risks & Rules of Thumb",
+        mnemonic: "Risks of Bad Complement: A-G-B ('Adverse selection, Growth blocked, Burden')",
+        memoryHook: "If fireworks (69 exposures) gets huge credibility, lambda is too small—increase lambda for ALL variables!",
+        items: [
+          "2 Multivariate Complement Risks: (1) Correlations between offset variables can hinder detecting shifts in signal; (2) Mixing complements from multiple sources can over/under-estimate prior assumptions",
+          "Full Credibility in Complement (beta = 0): Occurs when (1) High exposure closely matches complement (e.g., Fine Arts), or (2) Low exposure fails to pass Lasso threshold (e.g., Farming)",
+          "3 Risks of Inappropriate Complement in Small Segments: (1) Exposes insurer to Adverse Selection, (2) Prohibits Growth, (3) Places unreasonable Burden on policyholders",
+          "3 Case Study Rules of Thumb: (1) When complement pulls toward true relativity, Lasso Credibility beats GLM; (2) When complement beats 1.0, Lasso Credibility beats Lasso Penalization; (3) A poor complement can make Lasso Credibility perform worse than both GLM and Lasso"
+        ]
+      },
+      {
+        id: 37,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Holmes & Casotto App. A & B (p. 211–222)",
+        title: "Bayesian Equivalence (Ridge vs. Lasso) & 4 ASOP 25 Relevant Experience Rules",
+        mnemonic: "Normal Prior = Ridge = Buhlmann | Laplace Prior = Lasso | ASOP 25: C-S-B-I",
+        memoryHook: "Canonical link binary GLM always predicts exact observed class average (100% credibility)!",
+        items: [
+          "Canonical Link GLM Property: With binary encoding, predicted average for every level equals exact observed average regardless of exposure (100% credibility)",
+          "Bayesian Equivalence: Penalty(beta) = -log(p_prior(beta)). Normal prior N(0, tau^2) yields Ridge regression (lambda = sigma^2/tau^2 = Buhlmann k); Laplace prior yields Lasso regression (lambda = 1/gamma) as MAP posterior mode",
+          "Lasso vs. Ridge Shrinkage Shape: For small exposures/deviations, Lasso shrinks 100% to zero while Ridge interpolates smoothly; above the threshold, Lasso reacts faster and shrinks large values less than Ridge",
+          "4 ASOP 25 Relevant Experience Rules: (1) Exercise Care in selection; (2) Must have Similar characteristics (demographics/freq/sev); (3) Credibility procedure must properly Blend subject & relevant experience via lambda; (4) Check if subject experience is Included as a large subset of relevant experience (e.g., large state in countrywide model)"
+        ]
+      },
+      {
+        id: 38,
+        section: "Sec 4: Lasso & Chalk",
+        source: "Chalk Ch. 1–4 (p. 229–257)",
+        title: "Chalk Monograph Lists: Credit Sub-Models, Policy-ID Folds, Rebasing Pseudo-R^2 & Relaxed Lasso",
+        mnemonic: "Folds: R-S-U-L ('Recreate, Software, Updates, Leakage') | Relaxed Lasso: Soft then Hard",
+        memoryHook: "Pseudo-R^2 = (l_model - l_null)/(l_sat - l_null) = 1 - D_model/D_null (measures % of deviance explained, independent of sample size).",
+        items: [
+          "3 Advantages of Separate Credit Score Sub-Model: (1) Clear assessment of overall impact of credit score, (2) More parsimonious main GLM, (3) Easier to identify interactions with credit score",
+          "4 Model Hierarchy Benchmarks: Null Model (intercept-only floor, 0% lift), Baseline Model (basic GLM without HCCVs), Benchmark Model (black-box Gradient Boosting ceiling), Saturated Model (perfect fit y_hat = y)",
+          "4 Advantages of Policy-ID Cross-Validation Folds: (1) Always Recreated if lost, (2) Reproducible across Software, (3) Consistent across small data Updates, (4) Prevents data Leakage by keeping multi-vehicle/renewal records of the same policy in the same fold",
+          "2-Step Rebasing Pseudo-R^2 Evaluation: (1) Rebase predictions to match validation mean and use Pseudo-R^2 to evaluate risk segmentation; (2) Separately measure the size of the rebasing multiplier to evaluate average calibration",
+          "Relaxed Lasso (2 Stages): Stage 1 uses Lasso (soft-thresholding) for implicit feature selection; Stage 2 refits only selected features with reduced or zero penalty (hard-thresholding) to remove unnecessary shrinkage bias"
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // APPLICATION STATE & LOCAL STORAGE
+    // =========================================================================
+    let currentMode = 'browse';
+    let masteredIds = JSON.parse(localStorage.getItem('exam8_mastered_v1') || '[]');
+    let filteredLists = [...EXAM8_LISTS];
+
+    // Flashcard state
+    let fcIndex = 0;
+    let fcFlipped = false;
+    let fcShowHint = false;
+
+    // Quiz state
+    let quizScore = 0;
+    let quizTotal = 0;
+    let currentQuizQ = null;
+
+    function saveMastered() {
+      localStorage.setItem('exam8_mastered_v1', JSON.stringify(masteredIds));
+      updateProgressUI();
+    }
+
+    function toggleMastered(id) {
+      if (masteredIds.includes(id)) {
+        masteredIds = masteredIds.filter(x => x !== id);
+      } else {
+        masteredIds.push(id);
+      }
+      saveMastered();
+      renderCurrentMode();
+    }
+
+    function resetProgress() {
+      if (confirm('Reset all mastered list progress?')) {
+        masteredIds = [];
+        saveMastered();
+        renderCurrentMode();
+      }
+    }
+
+    function updateProgressUI() {
+      const total = EXAM8_LISTS.length;
+      const done = masteredIds.length;
+      const pct = Math.round((done / total) * 100);
+      document.getElementById('progress-text').textContent = `${done} / ${total} (${pct}%)`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+    }
+
+    // =========================================================================
+    // FILTERING & NAVIGATION
+    // =========================================================================
+    function applyFilters() {
+      const sec = document.getElementById('section-filter').value;
+      const stat = document.getElementById('status-filter').value;
+      const q = document.getElementById('search-input').value.trim().toLowerCase();
+
+      filteredLists = EXAM8_LISTS.filter(item => {
+        if (sec !== 'ALL' && item.section !== sec) return false;
+        if (stat === 'MASTERED' && !masteredIds.includes(item.id)) return false;
+        if (stat === 'UNMASTERED' && masteredIds.includes(item.id)) return false;
+        if (q) {
+          const hay = (item.title + ' ' + item.mnemonic + ' ' + item.source + ' ' + item.items.join(' ')).toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      fcIndex = 0;
+      fcFlipped = false;
+      renderCurrentMode();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        if (btn.dataset.mode === mode) {
+          btn.className = 'mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow';
+        } else {
+          btn.className = 'mode-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700';
+        }
+      });
+
+      ['browse', 'flashcards', 'cloze', 'quiz', 'sprint'].forEach(m => {
+        document.getElementById(`view-${m}`).classList.toggle('hidden', m !== mode);
+      });
+
+      renderCurrentMode();
+    }
+
+    function renderCurrentMode() {
+      updateProgressUI();
+      if (currentMode === 'browse') renderBrowse();
+      else if (currentMode === 'flashcards') renderFlashcards();
+      else if (currentMode === 'cloze') renderCloze();
+      else if (currentMode === 'quiz') renderQuiz();
+      else if (currentMode === 'sprint') renderSprint();
+    }
+
+    // =========================================================================
+    // MODE 1: BROWSE & MNEMONICS
+    // =========================================================================
+    function renderBrowse() {
+      const container = document.getElementById('view-browse');
+      if (filteredLists.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-slate-400">No lists match your current filter criteria.</div>`;
+        return;
+      }
+
+      container.innerHTML = filteredLists.map(item => {
+        const isMastered = masteredIds.includes(item.id);
+        return `
+          <div class="bg-slate-900 border ${isMastered ? 'border-emerald-500/40' : 'border-slate-800'} rounded-2xl p-5 shadow-lg transition hover:border-slate-700">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class="text-xs font-bold mono px-2 py-0.5 rounded bg-slate-800 text-indigo-400">#${item.id}</span>
+                  <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300">${item.section}</span>
+                  <span class="text-xs text-slate-400">${item.source}</span>
+                </div>
+                <h2 class="text-base md:text-lg font-bold text-white">${item.title}</h2>
+              </div>
+              <button onclick="toggleMastered(${item.id})" class="self-start md:self-center px-3 py-1.5 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 ${isMastered ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
+                <span>${isMastered ? '✓ Mastered' : '○ Mark Mastered'}</span>
+              </button>
+            </div>
+
+            <!-- Mnemonic Banner -->
+            <div class="mt-3 bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div class="text-[11px] uppercase tracking-wider font-bold text-indigo-400">Mnemonic Code</div>
+                <div class="text-sm font-bold text-indigo-200 mono">${item.mnemonic}</div>
+              </div>
+              <div class="text-xs text-slate-300 sm:text-right sm:max-w-md italic">
+                💡 ${item.memoryHook}
+              </div>
+            </div>
+
+            <!-- List Items -->
+            <ul class="mt-4 space-y-2">
+              ${item.items.map((pt, idx) => `
+                <li class="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed">
+                  <span class="mono text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 rounded px-1.5 py-0.5 mt-0.5">${idx + 1}</span>
+                  <span>${pt}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // MODE 2: ACTIVE RECALL FLASHCARDS
+    // =========================================================================
+    function renderFlashcards() {
+      const container = document.getElementById('view-flashcards');
+      if (filteredLists.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-slate-400">No lists match your filter.</div>`;
+        return;
+      }
+      if (fcIndex >= filteredLists.length) fcIndex = 0;
+      const card = filteredLists[fcIndex];
+      const isMastered = masteredIds.includes(card.id);
+
+      const firstLetterHints = card.items.map((it, i) => {
+        const words = it.split(' ').slice(0, 4).map(w => w[0]).join('. ');
+        return `<li class="text-xs mono text-amber-300/90">Item ${i+1} starts with: "${it.split(' ').slice(0, 2).join(' ')}..." (${words}.)</li>`;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between mb-3 text-xs text-slate-400">
+          <span>Card <strong class="text-white mono">${fcIndex + 1}</strong> of <strong class="text-white mono">${filteredLists.length}</strong></span>
+          <span>${card.section} • ${card.source}</span>
+        </div>
+
+        <div onclick="flipCard()" class="cursor-pointer bg-slate-900 border-2 ${isMastered ? 'border-emerald-500/50' : 'border-indigo-500/40'} rounded-2xl p-6 md:p-8 min-h-[360px] flex flex-col justify-between shadow-2xl transition hover:border-indigo-400">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                ${fcFlipped ? 'Answer & Full List' : 'Prompt — Recall All Items'}
+              </span>
+              <span class="text-xs text-slate-400 mono">List #${card.id} (${card.items.length} items)</span>
+            </div>
+
+            <h2 class="text-xl md:text-2xl font-bold text-white mb-4">${card.title}</h2>
+
+            ${!fcFlipped ? `
+              <div class="mt-6 p-4 rounded-xl bg-slate-850 border border-slate-800">
+                <div class="text-xs text-slate-400 mb-1">Mnemonic Prompt:</div>
+                <div class="text-base font-bold text-indigo-300 mono">${card.mnemonic}</div>
+              </div>
+              ${fcShowHint ? `
+                <div class="mt-4 p-4 rounded-xl bg-amber-950/30 border border-amber-500/30">
+                  <div class="text-xs font-bold text-amber-300 mb-2">First-Words Memory Cue:</div>
+                  <ul class="space-y-1">${firstLetterHints}</ul>
+                </div>
+              ` : ''}
+              <p class="mt-8 text-center text-xs text-slate-500">Click card or press <span class="mono text-slate-300">Space</span> to reveal all ${card.items.length} items</p>
+            ` : `
+              <div class="mb-4 p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
+                <div class="text-xs font-bold text-indigo-300 mono">${card.mnemonic}</div>
+                <div class="text-xs text-slate-300 italic mt-1">💡 ${card.memoryHook}</div>
+              </div>
+              <ul class="space-y-2.5 mt-3">
+                ${card.items.map((pt, idx) => `
+                  <li class="flex items-start gap-2.5 text-sm text-slate-100">
+                    <span class="mono text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded px-1.5 py-0.5 mt-0.5">${idx + 1}</span>
+                    <span>${pt}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            `}
+          </div>
+
+          <div class="pt-4 mt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2" onclick="event.stopPropagation()">
+            <div class="flex gap-2">
+              <button onclick="prevCard()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold">← Prev</button>
+              <button onclick="nextCard()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold">Next →</button>
+              <button onclick="toggleHint()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-300 hover:bg-amber-500/30 text-xs font-semibold">
+                ${fcShowHint ? 'Hide Hint (H)' : 'Hint (H)'}
+              </button>
+            </div>
+            <button onclick="toggleMastered(${card.id})" class="px-4 py-1.5 rounded-lg text-xs font-bold transition ${isMastered ? 'bg-emerald-600 text-white' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}">
+              ${isMastered ? '✓ Mastered (M)' : 'Mark Mastered (M)'}
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function flipCard() { fcFlipped = !fcFlipped; renderFlashcards(); }
+    function nextCard() { fcIndex = (fcIndex + 1) % filteredLists.length; fcFlipped = false; fcShowHint = false; renderFlashcards(); }
+    function prevCard() { fcIndex = (fcIndex - 1 + filteredLists.length) % filteredLists.length; fcFlipped = false; fcShowHint = false; renderFlashcards(); }
+    function toggleHint() { fcShowHint = !fcShowHint; renderFlashcards(); }
+
+    // Keyboard navigation for flashcards
+    window.addEventListener('keydown', e => {
+      if (currentMode !== 'flashcards') return;
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+      else if (e.code === 'ArrowRight') { nextCard(); }
+      else if (e.code === 'ArrowLeft') { prevCard(); }
+      else if (e.key.toLowerCase() === 'h') { toggleHint(); }
+      else if (e.key.toLowerCase() === 'm' && filteredLists[fcIndex]) { toggleMastered(filteredLists[fcIndex].id); }
+    });
+
+    // =========================================================================
+    // MODE 3: CLOZE FILL-IN-THE-BLANKS
+    // =========================================================================
+    function maskKeywords(text) {
+      // Mask key technical terms longer than 5 chars or numbers/formulas
+      const keywords = [
+        /credibility/gi, /variation/gi, /proportional\w*/gi, /maldistribution/gi,
+        /recent/gi, /delay/gi, /constant/gi, /development/gi, /chi-squared/gi,
+        /correlation/gi, /exponential/gi, /smoothing/gi, /Meyers\/Dorweiler/gi,
+        /fluctuation/gi, /Temporary Total/gi, /Permanent Total/gi, /quintiles/gi,
+        /multiplicative/gi, /positive/gi, /Overdispersed/gi, /Inverse Gaussian/gi,
+        /Tweedie/gi, /Negative Binomial/gi, /cross-validation/gi, /multicollinearity/gi,
+        /aliasing/gi, /uncorrelated/gi, /dispersion/gi, /Regulators/gi, /Underwriters/gi,
+        /duplicate\w*/gi, /impute/gi, /underfitting/gi, /overfitting/gi, /Cook's distance/gi,
+        /catastrophe\w*/gi, /Partial/gi, /Spline\w*/gi, /Hinge/gi, /Polynomial\w*/gi,
+        /saturated/gi, /homoscedastic\w*/gi, /Bootstrapping/gi, /Holdout/gi, /Monotonicity/gi,
+        /Lorenz/gi, /Specificity/gi, /Sensitivity/gi, /offset\w*/gi, /spatial/gi,
+        /shrinkage/gi, /Laplace/gi, /Buhlmann/gi, /Ordinal/gi, /sparsity/gi, /Leakage/gi
+      ];
+      let out = text;
+      keywords.forEach(rx => {
+        out = out.replace(rx, match => `<span class="cloze-blank" onclick="this.classList.toggle('revealed')">${match}</span>`);
+      });
+      return out;
+    }
+
+    function revealAllCloze(state) {
+      document.querySelectorAll('.cloze-blank').forEach(el => {
+        el.classList.toggle('revealed', state);
+      });
+    }
+
+    function renderCloze() {
+      const container = document.getElementById('view-cloze');
+      if (filteredLists.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-slate-400">No lists match your filter.</div>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="text-xs text-slate-300">
+            🎯 <strong>Cloze Active Recall:</strong> Click any purple blank to reveal the hidden actuarial keyword, or test yourself from the mnemonic!
+          </div>
+          <div class="flex gap-2">
+            <button onclick="revealAllCloze(true)" class="px-3 py-1 rounded-lg bg-indigo-600 text-white text-xs font-semibold">Reveal All</button>
+            <button onclick="revealAllCloze(false)" class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold">Hide All</button>
+          </div>
+        </div>
+      ` + filteredLists.map(item => `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-base font-bold text-white">#${item.id}. ${item.title}</h3>
+            <span class="text-xs font-bold mono text-indigo-400">${item.mnemonic}</span>
+          </div>
+          <ul class="space-y-2 mt-3">
+            ${item.items.map((pt, i) => `
+              <li class="text-sm text-slate-200 leading-relaxed flex items-start gap-2">
+                <span class="mono text-xs text-slate-500 mt-0.5">${i+1}.</span>
+                <span>${maskKeywords(pt)}</span>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `).join('');
+    }
+
+    // =========================================================================
+    // MODE 4: RAPID MATCH QUIZ
+    // =========================================================================
+    function generateQuizQuestion() {
+      const pool = filteredLists.length >= 4 ? filteredLists : EXAM8_LISTS;
+      const targetList = pool[Math.floor(Math.random() * pool.length)];
+      const targetItem = targetList.items[Math.floor(Math.random() * targetList.items.length)];
+
+      // Pick 3 distractors
+      const distractors = EXAM8_LISTS
+        .filter(x => x.id !== targetList.id)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+
+      const options = [targetList, ...distractors].sort(() => Math.random() - 0.5);
+      currentQuizQ = { targetList, targetItem, options, answered: false };
+    }
+
+    function answerQuiz(selectedId) {
+      if (!currentQuizQ || currentQuizQ.answered) return;
+      currentQuizQ.answered = true;
+      currentQuizQ.selectedId = selectedId;
+      quizTotal++;
+      if (selectedId === currentQuizQ.targetList.id) quizScore++;
+      renderQuiz(true);
+    }
+
+    function nextQuiz() {
+      generateQuizQuestion();
+      renderQuiz(true);
+    }
+
+    function renderQuiz(keepQuestion = false) {
+      const container = document.getElementById('view-quiz');
+      if (!keepQuestion || !currentQuizQ) generateQuizQuestion();
+
+      const { targetList, targetItem, options, answered, selectedId } = currentQuizQ;
+
+      container.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Rapid List Recognition Drill</span>
+              <h2 class="text-lg font-bold text-white">Which Exam 8 List does this item belong to?</h2>
+            </div>
+            <div class="text-right mono text-sm font-bold text-emerald-400">
+              Score: ${quizScore} / ${quizTotal}
+            </div>
+          </div>
+
+          <div class="my-6 p-5 rounded-xl bg-slate-850 border border-indigo-500/30 text-base text-slate-100 leading-relaxed">
+            "${targetItem}"
+          </div>
+
+          <div class="space-y-2.5">
+            ${options.map(opt => {
+              let btnStyle = 'bg-slate-800/90 hover:bg-slate-800 border-slate-700 text-slate-200';
+              if (answered) {
+                if (opt.id === targetList.id) {
+                  btnStyle = 'bg-emerald-500/20 border-emerald-500 text-emerald-200 font-bold';
+                } else if (opt.id === selectedId) {
+                  btnStyle = 'bg-rose-500/20 border-rose-500 text-rose-200';
+                } else {
+                  btnStyle = 'bg-slate-900 border-slate-800 text-slate-500';
+                }
+              }
+              return `
+                <button onclick="answerQuiz(${opt.id})" class="w-full text-left p-3.5 rounded-xl border transition flex items-center justify-between ${btnStyle}">
+                  <div>
+                    <div class="text-xs text-slate-400">${opt.source}</div>
+                    <div class="text-sm">${opt.title}</div>
+                  </div>
+                  <span class="mono text-xs text-indigo-400 ml-2">${answered ? opt.mnemonic.split('—')[0] : ''}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          ${answered ? `
+            <div class="mt-5 p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="text-xs text-slate-300">
+                <strong class="text-indigo-300">Mnemonic:</strong> ${targetList.mnemonic}<br/>
+                <span class="italic">${targetList.memoryHook}</span>
+              </div>
+              <button onclick="nextQuiz()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shrink-0">
+                Next Question →
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // MODE 5: 48-HOUR SPRINT PLANNER
+    // =========================================================================
+    function renderSprint() {
+      const container = document.getElementById('view-sprint');
+      const blocks = [
+        {
+          title: "Day 1 Morning (Hours 0–6): Section 1 — Credibility Papers (Lists #1–9)",
+          desc: "Master Bailey & Simon, Mahler's 6 credibility methods & 3 criteria, and Couret & Venter's 6 WC injury types + Quintiles Test.",
+          ids: [1,2,3,4,5,6,7,8,9]
+        },
+        {
+          title: "Day 1 Afternoon/Evening (Hours 6–14): Section 2 — GLM Fundamentals & Model Form (Lists #10–21)",
+          desc: "Lock down Exponential Family variance functions (N-P-T-G-I = 0-1-2-3), 5 GLM limitations, Data Prep (C-K-A-D-M), Freq/Sev vs. Tweedie (I-S-O-D), and Non-linear predictors (B-P-H-S).",
+          ids: [10,11,12,13,14,15,16,17,18,19,20,21]
+        },
+        {
+          title: "Day 2 Morning (Hours 24–32): Section 3 — GLM Validation, Lift Charts & Variations (Lists #22–30)",
+          desc: "Memorize Residual plots, Stability checks (C-C-B), Lift chart sort variables (Quantile, Double Lift, Loss Ratio, Gini, ROC), Documentation (R-A-D-E-P-A), and the 5 GLM Variations.",
+          ids: [22,23,24,25,26,27,28,29,30]
+        },
+        {
+          title: "Day 2 Afternoon/Evening (Hours 32–44): Section 4 — Holmes & Casotto Lasso Credibility + Chalk (Lists #31–38)",
+          desc: "Conquer the 5 p-value flaws vs. Lasso (B-G-A-I-U), 3 Lasso Credibility requirements (O-O-P), 6 Complements, Lambda tuning rules (M-S-V-J), Bayesian priors (Normal=Ridge, Laplace=Lasso), and Policy-ID Folds (R-S-U-L).",
+          ids: [31,32,33,34,35,36,37,38]
+        }
+      ];
+
+      container.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <h2 class="text-xl font-bold text-white mb-2">⏱ 48-Hour Exam 8 Memorization Protocol</h2>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            To memorize all 38 lists in 48 hours without burnout, follow the <strong>3-Pass Method</strong> for each block below:
+            <strong>Pass 1 (Browse):</strong> Read the mnemonic and hook out loud and visualize the acronym.
+            <strong>Pass 2 (Cloze):</strong> Switch to Cloze mode for that section and fill in every purple keyword blank.
+            <strong>Pass 3 (Flashcards):</strong> Flip through the section in Flashcard mode using only the Mnemonic & Hint (press <span class="mono">H</span>), marking each card Mastered only when you can recite all bullets cold.
+          </p>
+        </div>
+      ` + blocks.map(b => {
+        const doneCount = b.ids.filter(id => masteredIds.includes(id)).length;
+        const pct = Math.round((doneCount / b.ids.length) * 100);
+        return `
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-base font-bold text-white">${b.title}</h3>
+                <p class="text-xs text-slate-400 mt-0.5">${b.desc}</p>
+              </div>
+              <span class="mono text-xs font-bold px-2.5 py-1 rounded bg-slate-800 text-emerald-400 shrink-0">
+                ${doneCount} / ${b.ids.length} (${pct}%)
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
+              ${b.ids.map(id => {
+                const item = EXAM8_LISTS.find(x => x.id === id);
+                const done = masteredIds.includes(id);
+                return `
+                  <div onclick="toggleMastered(${id})" class="cursor-pointer p-2.5 rounded-xl border text-xs flex items-center justify-between transition ${done ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-200' : 'bg-slate-850 border-slate-800 text-slate-300 hover:border-slate-700'}">
+                    <span class="truncate pr-2"><strong>#${id}.</strong> ${item.title}</span>
+                    <span class="mono font-bold">${done ? '✓' : '○'}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Initialize on load
+    renderCurrentMode();
+  </script>
+</body>
+</html>

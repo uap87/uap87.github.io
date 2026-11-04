@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weekend Flight Finder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>✈️ Weekend Flight Finder</h1>
+  <p class="sub">Cheapest places you both can fly: PHL/EWR + YYZ/YTZ</p>
+</header>
+
+<main>
+  <form id="form" class="panel">
+    <div class="grid">
+      <label>Month
+        <select id="month"></select>
+      </label>
+      <label>Year
+        <select id="year"></select>
+      </label>
+      <label>Leave on
+        <select id="depDow">
+          <option value="4">Thursday</option>
+          <option value="5" selected>Friday</option>
+          <option value="6">Saturday</option>
+        </select>
+      </label>
+      <label>Return on
+        <select id="retDow">
+          <option value="0" selected>Sunday</option>
+          <option value="1">Monday</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="grid">
+      <fieldset>
+        <legend>Your airports</legend>
+        <label class="chk"><input type="checkbox" class="his" value="PHL" checked> PHL</label>
+        <label class="chk"><input type="checkbox" class="his" value="EWR" checked> EWR</label>
+      </fieldset>
+      <fieldset>
+        <legend>Her airports</legend>
+        <label class="chk"><input type="checkbox" class="hers" value="YYZ" checked> YYZ</label>
+        <label class="chk"><input type="checkbox" class="hers" value="YTZ" checked> YTZ</label>
+      </fieldset>
+      <fieldset>
+        <legend>Options</legend>
+        <label class="chk"><input type="checkbox" id="direct"> Nonstop only</label>
+        <label class="chk"><input type="checkbox" id="homes"> Include each other's home cities</label>
+        <label class="chk"><input type="checkbox" id="nocache"> Skip saved results (refetch)</label>
+      </fieldset>
+    </div>
+
+    <button type="submit" id="go">Search weekends</button>
+  </form>
+
+  <section id="progressBox" class="panel hidden">
+    <div class="bar"><div id="bar"></div></div>
+    <div id="progressText"></div>
+  </section>
+
+  <section id="filters" class="panel hidden">
+    <div class="grid">
+      <label>Sort by
+        <select id="sort">
+          <option value="total">Lowest combined price</option>
+          <option value="balanced">Most balanced (fair split)</option>
+          <option value="his">Cheapest for me</option>
+          <option value="hers">Cheapest for her</option>
+        </select>
+      </label>
+      <label>View
+        <select id="view">
+          <option value="all">Every weekend</option>
+          <option value="best">Best weekend per destination</option>
+        </select>
+      </label>
+      <label>Max combined ($)
+        <input type="number" id="budget" min="0" step="50" placeholder="no limit">
+      </label>
+      <label>Search destination
+        <input type="text" id="q" placeholder="e.g. Miami, Mexico">
+      </label>
+    </div>
+    <div id="chips" class="chips"></div>
+  </section>
+
+  <section id="status" class="notice hidden"></section>
+  <section id="results"></section>
+</main>
+
+<footer>
+  Prices come from the Travelpayouts / Aviasales Data API. They are cached fares other travelers recently searched,
+  so treat them as estimates and confirm with the Google Flights link on each result.
+</footer>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
