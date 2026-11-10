@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Nilkanth Varni 3x7 Postcards</title>
+<style>
+  body {
+    font-family: serif;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 30px;
+    margin: 0;
+  }
+  .postcard {
+    width: 7in;
+    height: 3in;
+    background-color: #fdf7e3;
+    box-sizing: border-box;
+    padding: 0.15in; 
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+  .outer-border {
+    border: 1.5px solid #7a1b1b;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0.1in; 
+  }
+  .outer-border::after {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    border: 1px solid #d4af37;
+    pointer-events: none;
+  }
+  .eyelet {
+    position: absolute;
+    width: 6px; height: 6px;
+    border: 1px solid #d4af37;
+    border-radius: 50%;
+    background-color: #fdf7e3;
+    z-index: 10;
+  }
+  .tl { top: 6px; left: 6px; }
+  .tr { top: 6px; right: 6px; }
+  .bl { bottom: 6px; left: 6px; }
+  .br { bottom: 6px; right: 6px; }
+
+  .content-area {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+  }
+  .left-col {
+    flex: 0 0 40%;
+    background-color: #7a1b1b;
+    border: 1.5px solid #d4af37;
+    border-radius: 12px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1in;
+  }
+  .left-col img {
+    width: 100%;
+    border-radius: 6px;
+    border: 1.5px solid #d4af37;
+    max-height: 75%;
+    object-fit: cover;
+  }
+  .title {
+    color: #fdf7e3;
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+  }
+  .right-col {
+    flex: 1;
+    padding-left: 0.25in;
+    padding-right: 0.1in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #7a1b1b;
+    text-align: center;
+    margin-bottom: 8px;
+    border-bottom: 1.5px solid #d4af37;
+    padding-bottom: 4px;
+  }
+  .story {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #222;
+    text-align: justify;
+  }
+  
+  @media print {
+    @page {
+      size: 7in 3in;
+      margin: 0;
+    }
+    body { 
+      background-color: white; 
+      padding: 0; 
+      gap: 0;
+      display: block;
+    }
+    .postcard { 
+      box-shadow: none;
+      page-break-after: always; 
+      margin: 0; 
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_1.png" alt="1. Chhapaiya scenery" />
+          <div class="title">1. Chhapaiya</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">Chhapaiya is the birthplace of Nilkanth Varni (Bhagwan Swaminarayan), where he was born as Ghanshyam and displayed divine qualities from a young age.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_2.png" alt="2. Himalayas scenery" />
+          <div class="title">2. Himalayas</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">During his yatra, Nilkanth Varni travelled through the Himalayas, facing extreme cold, difficult terrain, and many hardships with unwavering determination and unshakeable faith.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_3.png" alt="3. Pulhashram scenery" />
+          <div class="title">3. Pulhashram</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">At Pulhashram (near Muktinath), Nilkanth Varni performed intense tapas with deep concentration and devotion, even in harsh natural surroundings.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_4.png" alt="4. Mansarovar scenery" />
+          <div class="title">4. Mansarovar</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">During his yatra, Nilkanth Varni visited Mansarovar in the Himalayas, where he offered prayers with deep devotion and reverence.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_5.png" alt="5. Puri scenery" />
+          <div class="title">5. Puri</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">In Jagannath Puri, Nilkanth Varni participated in the Rath Yatra festival, where his devotion and humility touched the hearts of many.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_6.png" alt="6. South India scenery" />
+          <div class="title">6. South India</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">During his yatra in South India, Nilkanth Varni visited many sacred places, performed tapas, and shared the values of devotion and dharma.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="postcard">
+    <div class="outer-border">
+      <div class="eyelet tl"></div>
+      <div class="eyelet tr"></div>
+      <div class="eyelet bl"></div>
+      <div class="eyelet br"></div>
+      <div class="content-area">
+        <div class="left-col">
+          <img src="images/story_7.png" alt="7. Loj scenery" />
+          <div class="title">7. Loj</div>
+        </div>
+        <div class="right-col">
+          <div class="header">Story</div>
+          <div class="story">After completing his pilgrimage, Nilkanth Varni finally reunited with his guru at Loj, his final destination.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
